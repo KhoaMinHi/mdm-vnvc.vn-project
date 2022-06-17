@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/orders');
 const VaccineListRouter = require('./routes/Vaccine_list');
+const FAQRouter = require('./routes/FAQ');
 var app = express();
 
 // view engine setup
@@ -24,6 +25,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/orders', ordersRouter);
 app.use('/Vaccine_list', VaccineListRouter);
+app.use('/FAQ', FAQRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

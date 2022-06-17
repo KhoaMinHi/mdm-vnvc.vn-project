@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('Vaccine_list', { title: 'Vaccine-List'});
+    res.render('FAQ', { title: 'FAQ'});
 });
 
 module.exports = router;
