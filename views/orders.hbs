@@ -3,6 +3,7 @@
             width: 960px;
             margin: 50px auto;
             font-size: 15px;
+            border-radius: 2px;
         }
         .form-group form {
             margin-bottom: 15px;
@@ -17,15 +18,58 @@
             min-height: 38px;
             border-radius: 2px;
         }
+        h3{
+            color: rgb(25, 148, 214)
+        }
+        .select{
+            width: 100%;
+            min-height: 38px;
+            border-radius: 2px;
+        }
+        .btn-continue{
+            width: 200px;
+            margin-left: 510px;
+            font-size: 30px;
+            background-color: #1e90ff ;
+            border-radius: 1px;
+            border-color: white;
+        }
+        .white{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color:white;
+            text-align: center;
+        }
     </style>
 <form>
     <div class="form-group">
-            <h2>Điền thông tin đặt mua Vacxin</h2>
+            <h3>THÔNG TIN NGƯỜI TIÊM</h3>
             <div class="row">
                 <div class="col-4">
-                <h5>Họ và Tên</h5>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                    <h5>Họ và Tên</h5>
                 </div>
+                <div class="col-8">
+                    <h5>Mối quan hệ</h5>
+                    <p>Khách hàng chỉ được đăng ký tiêm cho người thân nếu thuộc các mối quan hệ sau</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-4">
+                    <select class="select">                           
+                        <option value="01">Cha</option>
+                        <option value="02">Mẹ</option>
+                        <option value="03">Ông</option>
+                        <option value="04">Bà</option>
+                        <option value="04">Anh</option>
+                        <option value="04">Chị</option>
+                        <option value="04">Em</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-4">
                 <h5>Ngày Sinh</h5>
                 <input type="date" class="form-control" name="DOB" id="DOB" required>
@@ -36,7 +80,6 @@
                 <input type="radio" name="gender" value="Nu"> Nữ<br>
                 </div>
             </div>
-            
             <div class="row">
                 <div class="col-4">
                 <h5>Số Điện Thoại</h5>
@@ -44,13 +87,19 @@
                 </div>
                 <div class="col-4">
                     <h5>Email</h5>
-                    <input type="email" class="form-control" name="phone" id="phone" placeholder="Your Email" required>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <h5>Số nhà - Tên Đường</h5>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Your address" required>
+                </div> 
             </div>    
             <div class="row">
                 <div class="col-4">
                     <h5>Tỉnh/Thành Phố</h5>
-                    <select class="form-control">                           
+                    <select class="select">                           
                         <option value="01">Thành phố Hà Nội</option>
 
                         <option value="02">Hà Giang</option>
@@ -185,11 +234,33 @@
                 <div class="col-4">
                     <h5>Phường/Xã</h5>
                     <input type="text" class="form-control" name="wards" id="wards" placeholder="Your wards" required>
+                </div>          
+            </div>
+    </div>
+    <div class="form-group">
+        <h3>CHỌN ĐỊA ĐIỂM MONG MUỐN TIÊM</h3>
+            <div class="row">
+                <div class="col-4">
+                <h5>Tỉnh</h5>
+                <input type="text" class="form-control" name="location_province" id="location_province" required>
                 </div>
-                <div class="col-8">
-                    <h5>Số nhà - Tên Đường</h5>
-                    <input type="text" class="form-control" name="address" id="address" placeholder="Your address" required>
-                </div>           
+                <div class="col-4">
+                <h5>Trung tâm</h5>
+                <input type="text" class="form-control" name="location" id="location" required>
+                </div>
+            </div>
+    </div>
+    <div class="form-group">
+        <h3>CHỌN THÊM LOẠI VẮC XIN</h3>
+            <div class="row">
+                <p>Chọn loại vắc xin quý khách muốn thêm vào danh sách</p>
+                <div class="col-4">
+                    <input type="text" class="form-control" name="another_Vaccine" id="another_Vaccine" required>     
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary">Thêm Vắc Xin</button>
+                </div>
             </div>
     </div>
 </form>
+<button class="btn-continue" type="submit"><h6 class="white">Tiếp Tục</h6></button>

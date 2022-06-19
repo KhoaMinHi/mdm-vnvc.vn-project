@@ -8,6 +8,8 @@ const redis = require('redis');
 const connectRedis = require('connect-redis');
 const session = require('express-session');
 const passport = require('./components/auth/passport.js');
+const mongoose = require('mongoose');
+const Handlebars = require('hbs');
 
 
 //define router
@@ -45,10 +47,21 @@ redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
 });
 
+const config = require('./config')
+const resgisterVaccination = require('./routes/registerVaccinational')
+const vaccineRouter = require('./routes/vaccine')
+const categoryRouter = require('./routes/category')
+const branchRouter = require('./routes/branch')
+var app = express();
 
 //===== create app and set configs =====\\
 var app = express();
 // view engine setup
+Handlebars.registerHelper('selectDistrics', function(cityList, idCity){
+  let districtsList = cityList.filter(item => item.province_code == idCity)
+  return districtsList
+})
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 // enable this if you run behind a proxy (e.g. nginx)
@@ -86,11 +99,23 @@ app.use('/login', authRouter);
 app.use('/logout', authRouter);
 app.use('/register', authRouter);
 
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+/*Connect mongodb*/
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+}
+mongoose.connect(config.URL_MONGODB,connectionParams)
+  .then( () => {
+      console.log('Connected to mongoBD!!')
+  })
+  .catch( (err) => {
+      console.error(`Error connecting to the mongoDb. \n${err}`);
+  })
 
 // error handler
 app.use(function(err, req, res, next) {
