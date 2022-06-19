@@ -6,8 +6,16 @@ function RegisterVaccinController() {
             try {
                 fetch('https://provinces.open-api.vn/api/?depth=3')
                     .then(response => response.json())
-                    .then(data => {
-                        res.render('registerVaccinational', {data})
+                    .then(locations => {
+                        if (locations) {
+                            fetch('http://localhost:3000/branch/list')
+                                .then(response => response.json())
+                                .then(branchs => {
+                                    if (branchs) {
+                                        res.render('registerVaccinational', {locations, branchs})   
+                                    }
+                                });
+                        }
                     });
               } catch (error) {
                 return res.status(400).json(error);
