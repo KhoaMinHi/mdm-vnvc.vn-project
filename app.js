@@ -15,6 +15,7 @@ const config = require('./config')
 const resgisterVaccination = require('./routes/registerVaccinational')
 const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
+const branchRouter = require('./routes/branch')
 var app = express();
 
 // view engine setup
@@ -40,6 +41,7 @@ app.use('/FAQ', FAQRouter);
 app.use('/register-vaccination', resgisterVaccination)
 app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
+app.use('/branch', branchRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
