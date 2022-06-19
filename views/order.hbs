@@ -239,28 +239,126 @@
     </div>
     <div class="form-group">
         <h3>CHỌN ĐỊA ĐIỂM MONG MUỐN TIÊM</h3>
-            <div class="row">
-                <div class="col-4">
-                <h5>Tỉnh</h5>
-                <input type="text" class="form-control" name="location_province" id="location_province" required>
-                </div>
-                <div class="col-4">
-                <h5>Trung tâm</h5>
-                <input type="text" class="form-control" name="location" id="location" required>
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputNameFamily">Trung tâm VNVC mong muốn tiêm (*)</label>
+                <select class="select" id="branch">
+                    <option>Chọn cơ sở</option>
+                    {{#each branchs}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
             </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-6">
+                <label for="inputBirtDay">Ngày mong muốn tiêm (*)</label>
+                <input type="datetime-local" class="form-control" id="birtd">
+            </div>
+        </div><br />
     </div>
     <div class="form-group">
-        <h3>CHỌN THÊM LOẠI VẮC XIN</h3>
+    <h3>CHỌN THÊM LOẠI VẮC XIN</h3>
             <div class="row">
-                <p>Chọn loại vắc xin quý khách muốn thêm vào danh sách</p>
-                <div class="col-4">
-                    <input type="text" class="form-control" name="another_Vaccine" id="another_Vaccine" required>     
-                </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary">Thêm Vắc Xin</button>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="inputAddress">Loại vắc xin muốn đăng ký (*)</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="0" value="0" name="radio-stacked" onclick="handleClick(this);">
+                            <label class="custom-control-label" for="customControlValidation2">Vắc xin gói</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-3">
+                            <input type="radio" class="custom-control-input" id="1" value="1" name="radio-stacked" onclick="handleClick(this);">
+                            <label class="custom-control-label" for="customControlValidation3">Vắc xin lẻ</label>
+                        </div>
+                    </div>
                 </div>
             </div>
-    </div>
+            <div id="vaccineListGroup" style="display: none;">
+            </div>
+            <div id="vaccineListSingle" style="display: none;">
+            </div> <br />   
+            <button type="submit" class="btn btn-success">Hoàn thành đăng ký</button>
+        </div>
 </form>
-<button class="btn-continue" type="submit"><h6 class="white">Tiếp Tục</h6></button>
+<script>
+    let cityCode = 1
+    function choosedCity() {
+        let idCity =  document.getElementById("citySelect").value;
+        fetch('https://provinces.open-api.vn/api/d/')
+            .then(response => response.json())
+            .then(data => {
+                let districts = data.filter(item => item.province_code == idCity)
+                let districtsHTML = ""
+                for (let district of districts) {
+                    districtsHTML += `<option value="${district.code}">${district.name}</option>`
+                }
+                document.getElementById("district").innerHTML = districtsHTML
+            });
+        
+    }
+
+    function choosedDistrict() {
+        let idDistrict =  document.getElementById("district").value;
+        fetch('https://provinces.open-api.vn/api/w/')
+            .then(response => response.json())
+            .then(data => {
+                let wards = data.filter(item => item.district_code == idDistrict)
+                let wardsHTML = ""
+                for (let ward of wards) {
+                    wardsHTML += `<option value="${ward.code}">${ward.name}</option>`
+                }
+                document.getElementById("ward").innerHTML = wardsHTML
+            });
+    }
+
+    function handleClick(event) {
+        if(event.value === "0"){
+            document.getElementById('vaccineListGroup').style.display = "block"
+            document.getElementById('vaccineListSingle').style.display = "none"
+            fetch('http://localhost:3000/category/listAndVaccineListIsGroup')
+            .then(response => response.json())
+            .then(data => {
+                let groupHTML = ""
+                for (let category of data) {
+                    let title = `
+                    <div class="row" ><b>${category.name}</b></div>
+                    <div class="row"> `
+                    let content = ""
+                    for (let vaccine of category.vacciniesList){
+                        content += `
+                            <div class="col-md-4" style="border-style: ridge;">
+                                <input type="checkbox"/>
+                                <div>${vaccine.name} - ${vaccine.price} VND</div>
+                            </div>
+                        `
+                    }
+                    let footer = `</div>`
+                    let HTML = title + content + footer
+                    groupHTML += HTML
+                }
+                document.getElementById("vaccineListGroup").innerHTML = groupHTML
+            });
+        }else{
+            document.getElementById('vaccineListSingle').style.display = "block"
+            document.getElementById('vaccineListGroup').style.display = "none"
+            fetch('http://localhost:3000/vaccine/getByType/1')
+            .then(response => response.json())
+            .then(data => {
+                let groupHTML = `<div class="row">`
+                for (let vaccine of data) {
+                    groupHTML += `
+                            <div class="col-md-4" style="border-style: ridge;">
+                                <input type="checkbox"/>
+                                <div>${vaccine.name} - ${vaccine.price} VND</div>
+                            </div>
+                    `
+                }
+                groupHTML += `</div>`
+                    document.getElementById("vaccineListSingle").innerHTML = groupHTML
+            });
+        
+        }
+    }
+
+</script>

@@ -15,7 +15,7 @@ const Handlebars = require('hbs');
 //define router
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const ordersRouter = require('./routes/orders');
+const ordersRouter = require('./routes/order');
 const VaccineListRouter = require('./routes/Vaccine_list');
 const FAQRouter = require('./routes/FAQ');
 const authRouter = require('./components/auth');
@@ -92,7 +92,7 @@ app.use(passport.session());
 //===== set router =====\\
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/orders', ordersRouter);
+app.use('/order', ordersRouter);
 app.use('/Vaccine_list', VaccineListRouter);
 app.use('/FAQ', FAQRouter);
 app.use('/login', authRouter);
