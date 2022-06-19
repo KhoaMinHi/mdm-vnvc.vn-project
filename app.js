@@ -98,7 +98,10 @@ app.use('/FAQ', FAQRouter);
 app.use('/login', authRouter);
 app.use('/logout', authRouter);
 app.use('/register', authRouter);
-
+app.use('/register-vaccination', resgisterVaccination)
+app.use('/vaccine', vaccineRouter)
+app.use('/category', categoryRouter)
+app.use('/branch', branchRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -12,11 +12,8 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
-<<<<<<< HEAD
     "express-session": "^1.17.3",
-=======
     "express-handlebars": "^6.0.6",
->>>>>>> 0611be75b3ef921d70eb206858aa8a8b9db94868
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "mongoose": "^6.4.0",
