@@ -65,6 +65,19 @@ app.use('/branch', branchRouter)
 app.use('/redis', redisTest);
 
 
+/*Connect mongodb*/
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+}
+mongoose.connect(config.URL_MONGODB,connectionParams)
+  .then( () => {
+      console.log('Connected to mongoBD!!')
+  })
+  .catch( (err) => {
+      console.error(`Error connecting to the mongoDb. \n${err}`);
+  });
+
 
 // ===== redis session =========\\
 
@@ -137,20 +150,6 @@ app.use(session({
 //Configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-/*Connect mongodb*/
-const connectionParams={
-  useNewUrlParser: true,
-  useUnifiedTopology: true 
-}
-mongoose.connect(config.URL_MONGODB,connectionParams)
-  .then( () => {
-      console.log('Connected to mongoBD!!')
-  })
-  .catch( (err) => {
-      console.error(`Error connecting to the mongoDb. \n${err}`);
-  })
 
 
 // catch 404 and forward to error handler
