@@ -1,4 +1,5 @@
 const categoryVaccineModel = require('../models/category')
+const vaccineModel = require('../models/vaccine')
 
 function CategoryController() {
     const SELF = {
@@ -15,10 +16,15 @@ function CategoryController() {
                 return res.status(400).json(error);
               }
         },
-        getList: async (req, res, next) => { 
+        listAndVaccineListIsGroup: async (req, res, next) => { 
             try {
-                let categories =  await categoryVaccineModel.find()    
-                return res.status(200).json(categories)
+                let categories =  await categoryVaccineModel.find()
+                let data = []
+                for (let category of categories) {
+                   let vaccineListByCate = await vaccineModel.find({category_id: category._id, type: 0})
+                   data.push({id: category._id, name: category.name, vacciniesList: vaccineListByCate})
+                }    
+                return res.status(200).json(data)
               } catch (error) {
                 return res.status(400).json(error);
               }

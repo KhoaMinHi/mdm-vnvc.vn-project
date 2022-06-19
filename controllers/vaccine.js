@@ -17,7 +17,7 @@ function VaccineController() {
         },
         getByType: async (req, res, next) => { 
             try {
-                let type = req.body.type;
+                let type = req.params.type;
                 let vaccinies =  await vaccineModel.find({type: type})    
                 return res.status(200).json(vaccinies)
               } catch (error) {

@@ -100,16 +100,20 @@
                     <div class="form-group">
                         <label for="inputAddress">Loại vắc xin muốn đăng ký (*)</label>
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked">
+                            <input type="radio" class="custom-control-input" id="0" value="0" name="radio-stacked" onclick="handleClick(this);">
                             <label class="custom-control-label" for="customControlValidation2">Vắc xin gói</label>
                         </div>
                         <div class="custom-control custom-radio mb-3">
-                            <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked">
+                            <input type="radio" class="custom-control-input" id="1" value="1" name="radio-stacked" onclick="handleClick(this);">
                             <label class="custom-control-label" for="customControlValidation3">Vắc xin lẻ</label>
                         </div>
                     </div>
                 </div>
-            </div><br />
+            </div>
+            <div id="vaccineListGroup" style="display: none;">
+            </div>
+            <div id="vaccineListSingle" style="display: none;">
+            </div> <br />
             <div class="row">
                 <div class="col-md-12">
                     <label for="inputNameFamily">Trung tâm VNVC mong muốn tiêm (*)</label>
@@ -162,4 +166,54 @@
                 document.getElementById("ward").innerHTML = wardsHTML
             });
     }
+
+    function handleClick(event) {
+        if(event.value === "0"){
+            document.getElementById('vaccineListGroup').style.display = "block"
+            document.getElementById('vaccineListSingle').style.display = "none"
+            fetch('http://localhost:3000/category/listAndVaccineListIsGroup')
+            .then(response => response.json())
+            .then(data => {
+               let groupHTML = ""
+               for (let category of data) {
+                    let title = `
+                    <div class="row" ><b>${category.name}</b></div>
+                    <div class="row"> `
+                    let content = ""
+                    for (let vaccine of category.vacciniesList){
+                        content += `
+                            <div class="col-md-4" style="border-style: ridge;">
+                                <input type="checkbox"/>
+                                <div>${vaccine.name} - ${vaccine.price} VND</div>
+                            </div>
+                        `
+                    }
+                    let footer = `</div>`
+                    let HTML = title + content + footer
+                    groupHTML += HTML
+               }
+                document.getElementById("vaccineListGroup").innerHTML = groupHTML
+            });
+        }else{
+            document.getElementById('vaccineListSingle').style.display = "block"
+            document.getElementById('vaccineListGroup').style.display = "none"
+            fetch('http://localhost:3000/vaccine/getByType/1')
+            .then(response => response.json())
+            .then(data => {
+               let groupHTML = `<div class="row">`
+               for (let vaccine of data) {
+                    groupHTML += `
+                             <div class="col-md-4" style="border-style: ridge;">
+                                <input type="checkbox"/>
+                                <div>${vaccine.name} - ${vaccine.price} VND</div>
+                            </div>
+                    `
+               }
+               groupHTML += `</div>`
+                document.getElementById("vaccineListSingle").innerHTML = groupHTML
+            });
+        
+        }
+    }
+
 </script>
