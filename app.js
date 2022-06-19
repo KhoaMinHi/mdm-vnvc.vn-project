@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //===== set router =====\\
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/orders', ordersRouter);
+app.use('/order', ordersRouter);
 app.use('/Vaccine_list', VaccineListRouter);
 app.use('/FAQ', FAQRouter);
 app.use('/login', authRouter);

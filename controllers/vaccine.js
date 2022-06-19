@@ -19,21 +19,29 @@ function VaccineController() {
                 return res.status(200).json({
                     status: "Success"
                 })
-              } catch (error) {
+            } catch (error) {
                 return res.status(400).json(error);
-              }
+            }
         },
         getByType: async (req, res, next) => { 
             try {
                 let type = req.params.type;
                 let vaccines =  await vaccineModel.find({type: type})    
-                res.render('vaccineList', {vaccines})
-              } catch (error) {
+                return res.status(200).json(vaccines)
+            } catch (error) {
                 return res.status(400).json(error);
-              }
+            }
+        },
+        renderByType: async (req, res, next) => { 
+            try {
+                let type = req.params.type;
+                let vaccines =  await vaccineModel.find({type: type})    
+                res.render('vaccineList', {vaccines})
+            } catch (error) {
+                return res.status(400).json(error);
+            }
         },
     };
 }
-  
+
 module.exports = new VaccineController();
-  
