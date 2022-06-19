@@ -3,7 +3,7 @@ var router = express.Router();
 
 const vaccine = require('../controllers/vaccine')
 
-router.get('/getByType', vaccine.getByType);
+router.get('/getByType/:type', vaccine.getByType);
 router.post('/add', vaccine.add);
 
 module.exports = router;

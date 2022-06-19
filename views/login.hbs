@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="card card0 border-0">
+        <div class="row d-flex">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="row mb-4 px-3">
+                        <h6 class="mb-0 mr-4 mt-2">SIGN IN </h6>
+                </div>
+                {{#wrongPassword}}
+                    <b>The username and password do not match</b>
+                {{/wrongPassword}}
+                <form method="post" id="form-2">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="text" name="email" id="email" placeholder="an123@gmail.com"/>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" name="password" id="password" placeholder="an123"/>
+                        <span class="form-message"></span>
+                    </div>
+                        <input type="submit" value="Log In"/>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</div>
+{{!-- <script src="/book-shop/js/validator.js"></script>
+<script> 
+    Validator({
+        form: "#form-2",
+        rules: [
+            Validator.isEmail("#email"),
+            Validator.minLength("#password", 3),
+        ]
+    });
+</script>--}}
