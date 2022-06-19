@@ -9,12 +9,11 @@ function RegisterVaccinController() {
                     .then(data => {
                         res.render('registerVaccinational', {data})
                     });
-              } catch (error) {
+            } catch (error) {
                 return res.status(400).json(error);
-              }
+            }
         },
     };
 }
-  
+
 module.exports = new RegisterVaccinController();
-  
