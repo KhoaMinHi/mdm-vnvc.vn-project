@@ -30,10 +30,8 @@ router.post("/", (req, res) => {
       sess.id = temp.id;
       sess.i = 1;
       console.log('login success', sess.id, "incr: ", req.session.i);
-      res.setHeader("Content-Type", "text/html");
-      response.write("<p>Hello World</p>");
+      res.write("<p>Login Success</p>");
       //res.redirect('/');
-      next();
     }
     else {
       res.redirect('/login?wrongPassword=true');
