@@ -26,7 +26,6 @@ const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
-var app = express();
 
 const authRouter = require('./components/auth');
 const redisTest = require('./bin/testRedis/redis');
@@ -52,7 +51,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-<<<<<<< HEAD
 //===== set router =====\\
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -74,6 +72,7 @@ const connectionParams={
   useNewUrlParser: true,
   useUnifiedTopology: true 
 }
+
 mongoose.connect(config.URL_MONGODB,connectionParams)
   .then( () => {
       console.log('Connected to mongoBD!!')
@@ -83,8 +82,6 @@ mongoose.connect(config.URL_MONGODB,connectionParams)
   });
 
 
-=======
->>>>>>> 9e82f0d0151e9e6b9e15b6e2b647b5367b6dfa3f
 // ===== redis session =========\\
 const RedisStore = connectRedis(session)
 //Configure redis client
@@ -174,20 +171,6 @@ app.use('/login', authRouter);
 app.use('/logout', authRouter);
 app.use('/register', authRouter);
 app.use('/customer', customerRouter);
-
-
-/*Connect mongodb*/
-const connectionParams={
-  useNewUrlParser: true,
-  useUnifiedTopology: true 
-}
-mongoose.connect(config.URL_MONGODB,connectionParams)
-  .then( () => {
-      console.log('Connected to mongoBD!!')
-  })
-  .catch( (err) => {
-      console.error(`Error connecting to the mongoDb. \n${err}`);
-  });
 
 
 // catch 404 and forward to error handler
