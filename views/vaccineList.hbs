@@ -4,6 +4,12 @@
         margin-left: 600px;
         font-size: 19px;
     }
+    .bt-btn {
+    position:absolute;
+    font-size: 19px;
+    margin-right: 100px;
+    bottom: -3px;
+}
 </style>
 <div class="container d-flex align-items-center">
     <nav class="navbar navbar-light bg-light">
@@ -56,29 +62,30 @@
     </div>
     <div class="col-md-2">
         <select name="Vaccine_type" id="Vaccine_type" class="form-select" onchange="location = this.value;">
-            <option value="" href="vaccineList"><a href="vaccineList">Tất cả</a></option>
-            <option value="" href="vaccineList"><a href="vaccineList">Vắc xin Gói</a></option>
-            <option value=""><a href="vaccineList">Vắc xin Lẻ</a></option>
+            <option value="/Vaccine_list">Chọn loại vắc xin</option>
+            <option value="/Vaccine_list">Tất cả</option>
+            <option value="/Vaccine_list/0">Vắc xin Gói</option>
+            <option value="/Vaccine_list/1">Vắc xin Lẻ</option>
         </select>
     </div>
     <div class ="search-form">
-        <input type="text" name="search"><input type="submit" value="Tìm Kiếm">
+        <input type="text" name="search" href="#"><input type="submit" value="Tìm Kiếm">
     </div>
 </div>
 <section id="featured-services" class="featured-services">
     <div class="container" data-aos="fade-up">
-
     <div class="row">
         {{#each vaccines}}
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
         <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
             <div class="icon"><i class="fas fa-heartbeat"></i></div>
             <h4 class="title"><a href="" value="{{this.name}}">{{this.name}}</a></h4>
-            <p class="description">Nguồn gốc: MSD (USA)</p>
-            <p class="description">Ung thư cổ tử cung</p>
-            <p class="description">Phòng bệnh :</p>
-            <p class="description">Ung thư cổ tử cung, âm hộ, âm đạo, các tổn thương tiền ung thư và loạn sản, mụn cóc sinh dục và bệnh lý do nhiễm virus HPV</p>
-            <button class="btn btn-primary" href="#">Thêm vào giỏ hàng</button>
+            <p class="origin" value="{{this.origin}}">Xuất sứ: {{this.origin}}</p>
+            <p class="description">Thông tin vắc xin: </p>
+            <p class="description"value="{{this.desc}}">{{this.desc}}</p>
+            <div class="bt-btn">
+            <a class="btn btn-primary" href="order" position="bottom">Đặt mua vắc xin</a>
+            </div>
         </div>
         </div>
         {{/each}}
