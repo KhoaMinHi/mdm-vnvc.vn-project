@@ -1,5 +1,5 @@
-const branchModel = require('../models/branch')
 const fetch = require('node-fetch');
+
 function orderVaccineController() {
     const SELF = {
     };

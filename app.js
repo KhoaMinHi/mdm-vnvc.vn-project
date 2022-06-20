@@ -27,6 +27,7 @@ const resgisterVaccination = require('./routes/registerVaccinational')
 const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
+const ticketRouter = require('./routes/ticket')
 var app = express();
 
 //===== create app and set configs =====\\
@@ -63,6 +64,9 @@ app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
 app.use('/redis', redisTest);
+app.use('/ticket', ticketRouter)
+
+/**Config express json */
 
 
 /*Connect mongodb*/
