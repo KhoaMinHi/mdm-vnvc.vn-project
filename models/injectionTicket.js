@@ -3,11 +3,11 @@ const schema = mongoose.Schema;
 
 const InjectionTicket = new schema(
   {
-    vaccineID: { type: String , require: true},
-    branchID: {type: String, require: true},
-    dateInject: {type: String, require: true},
-    accountID: {type: String, require: true},
-    injectPersonID: {type: String, require: true},
+    vacciniesChoosed: {type: Array, required: true},
+    branchID: {type: String, required: true},
+    dateInject: {type: String, required: true},
+    accountID: {type: String},
+    injectPersonID: {type: String},
     status: {type: Number, default: 0} 
   },
   { timestamps: true }

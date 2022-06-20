@@ -66,9 +66,6 @@ app.use('/branch', branchRouter)
 app.use('/redis', redisTest);
 app.use('/ticket', ticketRouter)
 
-/**Config express json */
-
-
 /*Connect mongodb*/
 const connectionParams={
   useNewUrlParser: true,

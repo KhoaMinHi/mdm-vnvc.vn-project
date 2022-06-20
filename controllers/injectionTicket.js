@@ -7,16 +7,17 @@ function TicketController() {
         add: async (req, res, next) => {
             try {
                 formData = req.body
+                console.log(formData)
                 let injectData = new ticketModel;
-                if (!formData['accountID'] || !formData['vaccineID'] || !formData['branchID'] || !formData['dateInject'] || !formData['injectPersonID']){
+                if (!formData['vaccineChoosed'] || !formData['branchWant'] || !formData['dateInject']){
                     return res.status(400).json({
                         status: "Fail",
                         message: "Param input fail"
                     })
                 }
                 injectData.accountID = formData['accountID']
-                injectData.vaccineID = formData['vaccineID']
-                injectData.branchID = formData['branchID']
+                injectData.vacciniesChoosed = formData['vaccineChoosed']
+                injectData.branchID = formData['branchWant']
                 injectData.dateInject = formData['dateInject']
                 injectData.injectPersonID = formData['injectPersonID']
 
@@ -28,6 +29,15 @@ function TicketController() {
                 return res.status(400).json(error);
               }
         },
+        listByUserID: async (req, res, next) => {
+            try {
+                let userID = req.body.userID
+                let ticketlist = await ticketModel.find({accountID: userID})
+                return res.status(200).json({ticketlist})
+              } catch (error) {
+                return res.status(400).json(error);
+              }
+        }
     };
 }
   
