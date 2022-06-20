@@ -30,6 +30,9 @@ function orderVaccineController() {
                 return res.status(400).json(error);
             }
         },
+        order: async (req, res, next) => {
+            
+        }
     };
 }
 
