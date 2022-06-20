@@ -21,7 +21,6 @@ module.exports = function RegisterVaccinController() {
                                 .then(response => response.json())
                                 .then(branchs => {
                                     if (branchs) {
-                                        console.log(locations);
                                         res.render('registerVaccinational', { locations, branchs });
                                     }
                                 });
