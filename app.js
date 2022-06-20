@@ -18,8 +18,6 @@ var usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/order');
 const VaccineListRouter = require('./routes/Vaccine_list');
 const FAQRouter = require('./routes/FAQ');
-const authRouter = require('./components/auth');
-const redisTest = require('./bin/testRedis/redis');
 
 
 const config = require('./config')
@@ -30,8 +28,12 @@ const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
 var app = express();
 
+const authRouter = require('./components/auth');
+const redisTest = require('./bin/testRedis/redis');
+const customerRouter = require('./routes/customerRouter.js');
+
 //===== create app and set configs =====\\
-var app = express();
+const app = express();
 // view engine setup
 Handlebars.registerHelper('selectDistrics', function(cityList, idCity){
   let districtsList = cityList.filter(item => item.province_code == idCity)
@@ -50,6 +52,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+<<<<<<< HEAD
 //===== set router =====\\
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -80,8 +83,9 @@ mongoose.connect(config.URL_MONGODB,connectionParams)
   });
 
 
+=======
+>>>>>>> 9e82f0d0151e9e6b9e15b6e2b647b5367b6dfa3f
 // ===== redis session =========\\
-
 const RedisStore = connectRedis(session)
 //Configure redis client
 let redisClient;
@@ -151,6 +155,39 @@ app.use(session({
 //Configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+//===== set router =====\\
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/order', ordersRouter);
+app.use('/Vaccine_list', VaccineListRouter);
+app.use('/FAQ', FAQRouter);
+app.use('/register-vaccination', resgisterVaccination)
+app.use('/vaccine', vaccineRouter)
+app.use('/category', categoryRouter)
+app.use('/branch', branchRouter)
+
+//khoa
+app.use('/redis', redisTest);
+app.use('/login', authRouter);
+app.use('/logout', authRouter);
+app.use('/register', authRouter);
+app.use('/customer', customerRouter);
+
+
+/*Connect mongodb*/
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+}
+mongoose.connect(config.URL_MONGODB,connectionParams)
+  .then( () => {
+      console.log('Connected to mongoBD!!')
+  })
+  .catch( (err) => {
+      console.error(`Error connecting to the mongoDb. \n${err}`);
+  });
 
 
 // catch 404 and forward to error handler
