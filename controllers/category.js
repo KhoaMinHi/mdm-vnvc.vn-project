@@ -21,8 +21,8 @@ function CategoryController() {
                 let categories =  await categoryVaccineModel.find()
                 let data = []
                 for (let category of categories) {
-                   let vaccineListByCate = await vaccineModel.find({category_id: category._id, type: 0})
-                   data.push({id: category._id, name: category.name, vacciniesList: vaccineListByCate})
+                  let vaccineListByCate = await vaccineModel.find({category_id: category._id, type: 0})
+                  data.push({id: category._id, name: category.name, vacciniesList: vaccineListByCate})
                 }    
                 return res.status(200).json(data)
               } catch (error) {
