@@ -26,6 +26,7 @@ const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
+const orderTicketRouter = require('./routes/orderTicket')
 
 const authRouter = require('./components/auth');
 const redisTest = require('./bin/testRedis/redis');
@@ -66,7 +67,7 @@ app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
 app.use('/redis', redisTest);
 app.use('/ticket', ticketRouter)
-
+app.use('/orderTicket', orderTicketRouter)
 /*Connect mongodb*/
 const connectionParams={
   useNewUrlParser: true,
@@ -164,7 +165,7 @@ app.use('/register-vaccination', resgisterVaccination)
 app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
-
+app.use('/orderTicket', orderTicketRouter)
 //khoa
 app.use('/redis', redisTest);
 app.use('/login', authRouter);

@@ -1,110 +1,43 @@
-<style>
-        .form-group {
-            width: 960px;
-            margin: 50px auto;
-            font-size: 15px;
-            border-radius: 2px;
-        }
-        .form-group form {
-            margin-bottom: 15px;
-            background: #f7f7f7;
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-        }
-        .form-group h2 {
-            margin: 0 0 15px;
-        }
-        .form-input, .btn {
-            min-height: 38px;
-            border-radius: 2px;
-        }
-        h3{
-            color: rgb(25, 148, 214)
-        }
-        .select{
-            width: 100%;
-            min-height: 38px;
-            border-radius: 2px;
-        }
-        .form-input{
-            width: 100%;
-            min-height: 38px;
-            border-radius: 2px;
-        }
-        .btn-continue{
-            width: 200px;
-            margin-left: 510px;
-            font-size: 30px;
-            background-color: #1e90ff ;
-            border-radius: 1px;
-            border-color: white;
-        }
-        .white{
-            margin-top: 10px;
-            margin-bottom: 10px;
-            color:white;
-            text-align: center;
-        }
-    </style>
-<form>
-    <div class="form-group">
-            <h3>THÔNG TIN NGƯỜI TIÊM</h3>
+<div class="container">
+    <h1>Thông Tin Người Được tiêm</h1>
+    <div>Quý khách có thể đăng ký cùng lúc cho tối đa 5 người tiêm, VNVC chỉ thực hiện tiêm chủng cho Khách hàng có thông tin đăng ký trùng khớp hoàn toàn với thông tin Quý Khách cung cấp tại đây.
+    </div><br/>
+    <div>
+    <form method="post" action="/orderTicket/add" enctype="multipart/form-data">
+        <h4>THÔNG TIN NGƯỜI TIÊM</h4>
             <div class="row">
-                <div class="col-4">
-                    <h5>Họ và Tên</h5>
+                <div class="col-md-6 form-group">
+                    <label for="nameInject">Họ tên người tiêm (*)</label>
+                    <input type="input" class="form-control" id="nameInject" name="nameInject">
                 </div>
-                <div class="col-8">
-                    <h5>Mối quan hệ</h5>
-                    <p>Khách hàng chỉ được đăng ký tiêm cho người thân nếu thuộc các mối quan hệ sau</p>
+                <div class="col-md-6 form-group">
+                    <label for="birthInject">Ngày sinh người tiêm (*)</label>
+                    <input type="datetime-local" class="form-control" id="birthInject" name="birthInject">
                 </div>
-            </div>
+            </div><br />
             <div class="row">
-                <div class="col-4">
-                    <input type="text" class="form-input" name="name" id="name" placeholder="Your Name" required>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="genderInject">Giới tính (*)</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-gender" value="0">
+                            <label class="custom-control-label" for="customControlValidation2">Nam</label>
+                        </div>
+                        <div class="custom-control custom-radio mb-3">
+                            <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-gender" value="1">
+                            <label class="custom-control-label" for="customControlValidation3">Nữ</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <select class="select">                           
-                        <option value="01">Cha</option>
-                        <option value="02">Mẹ</option>
-                        <option value="03">Ông</option>
-                        <option value="04">Bà</option>
-                        <option value="04">Anh</option>
-                        <option value="04">Chị</option>
-                        <option value="04">Em</option>
-                    </select>
+                <div class="col-md-6">
+                    <label for="inputCustomer">Mã khách hàng (Nếu có)</label>
+                    <input type="input" class="form-control" id="inputCustomer" name="inputCustomer">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                <h5>Ngày Sinh</h5>
-                <input type="date" class="form-input" name="DOB" id="DOB" required>
-                </div>
-                <div class="col-4">
-                <h5>Giới Tính</h5>
-                <input type="radio" name="gender" value="Nam" checked> Nam<br>
-                <input type="radio" name="gender" value="Nu"> Nữ<br>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                <h5>Số Điện Thoại</h5>
-                <input type="phone" class="form-input" name="phone" id="phone" placeholder="Your Phone" required>
-                </div>
-                <div class="col-4">
-                    <h5>Email</h5>
-                    <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <h5>Số nhà - Tên Đường</h5>
-                    <input type="address" class="form-input" name="address" id="address" placeholder="Your address" required>
-                </div> 
-            </div>    
+            </div><br />
             <div class="row">
                 <div class="col-md-4">
                     <label for="inputCity">Tỉnh thành (*)</label>
-                    <select class="select" id="citySelect" onchange="choosedCity()">
+                    <select class="form-control" for="inputCity"  id="citySelect" name="inputCity" onchange="choosedCity()">
                         <option>Chọn Tỉnh</option>
                         {{#each locations}}
                         <option value="{{this.code}}">{{this.name}}</option>
@@ -113,38 +46,54 @@
                 </div>
                 <div class="col-md-4">
                     <label for="inputDistrict">Quận huyện (*)</label>
-                    <select class="select" id="district" onchange="choosedDistrict()">
+                    <select class="form-control" for="inputDistrict" id="district" name="inputDistrict" onchange="choosedDistrict()">
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="inputWard">Phường xã (*)</label>
-                    <select class="select" id="ward">
+                    <select class="form-control" for="inputWard" id="ward" name="inputWard">
                     </select>
                 </div>
             </div><br />
-    </div>
-    <div class="form-group">
-        <h3>CHỌN ĐỊA ĐIỂM MONG MUỐN TIÊM</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <label for="inputNameFamily">Trung tâm VNVC mong muốn tiêm (*)</label>
-                <select class="select" id="branch">
-                    <option>Chọn cơ sở</option>
-                    {{#each branchs}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div><br />
-        <div class="row">
-            <div class="col-md-6">
-                <label for="inputBirtDay">Ngày mong muốn tiêm (*)</label>
-                <input type="datetime-local" class="form-input" id="birtd">
-            </div>
-        </div><br />
-    </div>
-    <div class="form-group">
-    <h3>CHỌN THÊM LOẠI VẮC XIN</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="street">Số nhà, tên đường (*)</label>
+                    <input type="input" class="form-control" id="street" name="street">
+                </div>
+            </div><br />
+            <h4>THÔNG TIN LIÊN HỆ</h4>
+            <div class="row">
+                <div class="col-md-8">
+                    <label for="emailContact">Email Liên hệ (*)</label>
+                    <input type="Email" class="form-control" id="emailContact" name="emailContact">
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="relationship">Mối quan hệ với người tiêm (*)</label>
+                        <select class="form-control" id="relationship" name="relationship">
+                            <option value="0">Bản thân</option>
+                            <option value="1">Con</option>
+                            <option value="2">Cha</option>
+                            <option value="3">Mẹ</option>
+                            <option value="4">Chồng</option>
+                            <option value="5">Anh</option>
+                            <option value="6">Chị</option>
+                            <option value="7">Em</option>
+                            <option value="8">Ông</option>
+                            <option value="9">Bà</option>
+                            <option value="10">Họ hàng</option>
+                            <option value="11">Khác</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="phoneContact">Số điện thoại người liên hệ (*)</label>
+                    <input type="input" class="form-control" id="phoneContact" name="phoneContact">
+                </div>
+            </div><br />
+            <h4>CHỌN VẮC XIN CHO NGƯỜI TIÊM</h4>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -163,10 +112,39 @@
             <div id="vaccineListGroup" style="display: none;">
             </div>
             <div id="vaccineListSingle" style="display: none;">
-            </div> <br />   
+            </div> <br />
+            <div class="row">
+                <h4>CHỌN ĐỊA ĐIỂM MONG MUỐN TIÊM</h4>
+                <div class="col-md-4">
+                    <label for="inputCity">Tỉnh thành (*)</label>
+                    <select class="form-control" for="inputCity"  id="citySelect" name="inputCity" onchange="choosedCity()">
+                        <option>Chọn Tỉnh</option>
+                        {{#each locations}}
+                        <option value="{{this.code}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="branchWant">Trung tâm VNVC mong muốn tiêm (*)</label>
+                    <select class="form-control" id="branchWant" name="branchWant">
+                        <option>Chọn cơ sở</option>
+                        {{#each branchs}}
+                        <option value="{{this._id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dateInject">Ngày mong muốn tiêm (*)</label>
+                    <input type="datetime-local" class="form-control" id="dateInject" name="dateInject">
+                </div>
+            </div><br />
             <button type="submit" class="btn btn-success">Hoàn thành đăng ký</button>
-        </div>
-</form>
+        </form>
+        
+    </div>
+</div>
 <script>
     let cityCode = 1
     function choosedCity() {
@@ -205,8 +183,8 @@
             fetch('http://localhost:3000/category/listAndVaccineListIsGroup')
             .then(response => response.json())
             .then(data => {
-                let groupHTML = ""
-                for (let category of data) {
+               let groupHTML = ""
+               for (let category of data) {
                     let title = `
                     <div class="row" ><b>${category.name}</b></div>
                     <div class="row"> `
@@ -214,7 +192,7 @@
                     for (let vaccine of category.vacciniesList){
                         content += `
                             <div class="col-md-4" style="border-style: ridge;">
-                                <input type="checkbox"/>
+                                <input type="checkbox" value="${vaccine._id}" name="vaccineChoosed"/>
                                 <div>${vaccine.name} - ${vaccine.price} VND</div>
                             </div>
                         `
@@ -222,7 +200,7 @@
                     let footer = `</div>`
                     let HTML = title + content + footer
                     groupHTML += HTML
-                }
+               }
                 document.getElementById("vaccineListGroup").innerHTML = groupHTML
             });
         }else{
@@ -231,17 +209,17 @@
             fetch('http://localhost:3000/vaccine/getByType/1')
             .then(response => response.json())
             .then(data => {
-                let groupHTML = `<div class="row">`
-                for (let vaccine of data) {
+               let groupHTML = `<div class="row">`
+               for (let vaccine of data) {
                     groupHTML += `
-                            <div class="col-md-4" style="border-style: ridge;">
-                                <input type="checkbox"/>
+                             <div class="col-md-4" style="border-style: ridge;">
+                                <input type="checkbox" value="${vaccine._id}" name="vaccineChoosed"/>
                                 <div>${vaccine.name} - ${vaccine.price} VND</div>
                             </div>
                     `
-                }
-                groupHTML += `</div>`
-                    document.getElementById("vaccineListSingle").innerHTML = groupHTML
+               }
+               groupHTML += `</div>`
+                document.getElementById("vaccineListSingle").innerHTML = groupHTML
             });
         
         }
