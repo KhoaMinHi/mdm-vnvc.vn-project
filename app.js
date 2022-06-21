@@ -18,8 +18,6 @@ var usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/order');
 const VaccineListRouter = require('./routes/vaccineList');
 const FAQRouter = require('./routes/FAQ');
-const authRouter = require('./components/auth');
-const redisTest = require('./bin/testRedis/redis');
 
 
 const config = require('./config')
@@ -27,10 +25,14 @@ const resgisterVaccination = require('./routes/registerVaccinational')
 const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
-var app = express();
+const ticketRouter = require('./routes/ticket')
+
+const authRouter = require('./components/auth');
+const redisTest = require('./bin/testRedis/redis');
+const customerRouter = require('./routes/customerRouter.js');
 
 //===== create app and set configs =====\\
-var app = express();
+const app = express();
 // view engine setup
 Handlebars.registerHelper('selectDistrics', function(cityList, idCity){
   let districtsList = cityList.filter(item => item.province_code == idCity)
@@ -63,13 +65,14 @@ app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
 app.use('/redis', redisTest);
-
+app.use('/ticket', ticketRouter)
 
 /*Connect mongodb*/
 const connectionParams={
   useNewUrlParser: true,
   useUnifiedTopology: true 
 }
+
 mongoose.connect(config.URL_MONGODB,connectionParams)
   .then( () => {
       console.log('Connected to mongoBD!!')
@@ -80,7 +83,6 @@ mongoose.connect(config.URL_MONGODB,connectionParams)
 
 
 // ===== redis session =========\\
-
 const RedisStore = connectRedis(session)
 //Configure redis client
 let redisClient;
@@ -150,6 +152,25 @@ app.use(session({
 //Configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+//===== set router =====\\
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/order', ordersRouter);
+app.use('/Vaccine_list', VaccineListRouter);
+app.use('/FAQ', FAQRouter);
+app.use('/register-vaccination', resgisterVaccination)
+app.use('/vaccine', vaccineRouter)
+app.use('/category', categoryRouter)
+app.use('/branch', branchRouter)
+
+//khoa
+app.use('/redis', redisTest);
+app.use('/login', authRouter);
+app.use('/logout', authRouter);
+app.use('/register', authRouter);
+app.use('/customer', customerRouter);
 
 
 // catch 404 and forward to error handler

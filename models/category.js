@@ -3,7 +3,7 @@ const schema = mongoose.Schema;
 
 const CategoryVaccine = new schema(
   {
-    name: { type: String , require: true},
+    name: { type: String , required: true},
   },
   { timestamps: true }
 );
