@@ -62,10 +62,10 @@
     </div>
     <div class="col-md-2">
         <select name="Vaccine_type" id="Vaccine_type" class="form-select" onchange="location = this.value;">
-            <option value="/Vaccine_list">Chọn loại vắc xin</option>
-            <option value="/Vaccine_list">Tất cả</option>
-            <option value="/Vaccine_list/0">Vắc xin Gói</option>
-            <option value="/Vaccine_list/1">Vắc xin Lẻ</option>
+            <option value="/vaccineList">Chọn loại vắc xin</option>
+            <option value="/vaccineList">Tất cả</option>
+            <option value="/vaccineList/0">Vắc xin Gói</option>
+            <option value="/vaccineList/1">Vắc xin Lẻ</option>
         </select>
     </div>
     <div class ="search-form">
@@ -81,7 +81,7 @@
             <div class="icon"><i class="fas fa-heartbeat"></i></div>
             <h4 class="title"><a href="" value="{{this.name}}">{{this.name}}</a></h4>
             <p class="origin" value="{{this.origin}}">Xuất sứ: {{this.origin}}</p>
-            <p class="description">Thông tin vắc xin: </p>
+            <p class="description">Phòng bệnh: </p>
             <p class="description"value="{{this.desc}}">{{this.desc}}</p>
             <div class="bt-btn">
             <a class="btn btn-primary" href="order" position="bottom">Đặt mua vắc xin</a>

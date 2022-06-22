@@ -18,7 +18,7 @@ const CryptoJS = require("crypto-js");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const ordersRouter = require('./routes/order');
-const VaccineListRouter = require('./routes/Vaccine_list');
+const VaccineListRouter = require('./routes/vaccineList');
 const FAQRouter = require('./routes/FAQ');
 
 
@@ -27,8 +27,9 @@ const resgisterVaccination = require('./routes/registerVaccinational')
 const vaccineRouter = require('./routes/vaccine')
 const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
+const ticketRouter = require('./routes/ticket')
+const orderTicketRouter = require('./routes/orderTicket')
 
-//khoa
 const authRouter = require('./components/auth');
 const redisTest = require('./bin/testRedis/redis');
 const customerRouter = require('./routes/customerRouter.js');
@@ -51,6 +52,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//===== set router =====\\
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/order', ordersRouter);
+app.use('/vaccineList', VaccineListRouter);
+app.use('/FAQ', FAQRouter);
+app.use('/login', authRouter);
+app.use('/logout', authRouter);
+app.use('/register', authRouter);
+app.use('/register-vaccination', resgisterVaccination)
+app.use('/vaccine', vaccineRouter)
+app.use('/category', categoryRouter)
+app.use('/branch', branchRouter)
+app.use('/redis', redisTest);
+app.use('/ticket', ticketRouter)
+app.use('/orderTicket', orderTicketRouter)
+/*Connect mongodb*/
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+}
+
+mongoose.connect(config.URL_MONGODB,connectionParams)
+  .then( () => {
+      console.log('Connected to mongoBD!!')
+  })
+  .catch( (err) => {
+      console.error(`Error connecting to the mongoDb. \n${err}`);
+  });
 
 
 // ===== redis session =========\\
@@ -137,27 +169,13 @@ app.use('/register-vaccination', resgisterVaccination)
 app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
-
+app.use('/orderTicket', orderTicketRouter)
 //khoa
 app.use('/redis', redisTest);
 app.use('/login', authRouter);
 app.use('/logout', authRouter);
 app.use('/register', authRouter);
 app.use('/customer', customerRouter);
-
-
-/*Connect mongodb*/
-const connectionParams={
-  useNewUrlParser: true,
-  useUnifiedTopology: true 
-}
-mongoose.connect(config.URL_MONGODB,connectionParams)
-  .then( () => {
-      console.log('Connected to mongoBD!!')
-  })
-  .catch( (err) => {
-      console.error(`Error connecting to the mongoDb. \n${err}`);
-  });
 
 
 // catch 404 and forward to error handler

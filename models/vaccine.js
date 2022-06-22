@@ -3,8 +3,8 @@ const schema = mongoose.Schema;
 
 const Vaccine = new schema(
   {
-    name: { type: String , require: true},
-    price: {type: Number, require: true},
+    name: { type: String , required: true},
+    price: {type: Number, required: true},
     inventory_number: {type: Number, default: 100},
     desc: {type: String},
     desc_detail: {type: String},
