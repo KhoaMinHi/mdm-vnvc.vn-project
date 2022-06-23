@@ -20,11 +20,15 @@ return {
             cusData.phone = formData['phoneContact']
             cusData.name = formData['nameInject']
             cusData.birth = formData['birthInject']
-            cusData.sex = formData['genderInject']
+            cusData.sex = formData['radio-gender']
             cusData.province = formData['inputCity']
             cusData.district = formData['inputDistrict']
             cusData.ward = formData['inputWard']
-            cusData.address = formData['street']
+            cusData.address.province = formData['inputCity'][0]
+            cusData.address.district = formData['inputDistrict']
+            cusData.address.ward = formData['inputWard']
+            cusData.address.address = formData['street']
+            
 
             orderData.accountID = formData['accountID']
             orderData.vaccineChoose = formData['vaccineChoosed']
@@ -33,6 +37,7 @@ return {
             orderData.injectPersonID = formData['injectPersonID']
             console.log(cusData)
             await orderData.save()
+            await cusData.save()
             return res.status(200).json({
                 status: "Success"
             })
@@ -42,7 +47,15 @@ return {
     },
     listByUserID: async (req, res, next) => {
         try {
-            let userID = req.body.userID
+            let userID = req.body.id
+            let orderList = await orderTicket.find({accountID: userID})
+            return res.status(200).json({orderList})
+            } catch (error) {
+            return res.status(400).json(error);
+            }
+    },
+    listAll: async (req, res, next) => {
+        try {
             let orderList = await orderTicket.find()
             return res.status(200).json({orderList})
             } catch (error) {

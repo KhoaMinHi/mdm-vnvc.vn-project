@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="birthInject">Ngày sinh người tiêm (*)</label>
-                    <input type="datetime-local" class="form-control" id="birthInject" name="birthInject">
+                    <input type="date" class="form-control" id="birthInject" name="birthInject">
                 </div>
             </div><br />
             <div class="row">
@@ -40,7 +40,7 @@
                     <select class="form-control" for="inputCity"  id="citySelect" name="inputCity" onchange="choosedCity()">
                         <option>Chọn Tỉnh</option>
                         {{#each locations}}
-                        <option value="{{this.code}}">{{this.name}}</option>
+                        <option value="{{this.name}}">{{this.name}}</option>
                         {{/each}}
                     </select>
                 </div>
