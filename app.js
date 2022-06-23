@@ -10,6 +10,8 @@ const session = require('express-session');
 const passport = require('./components/auth/passport.js');
 const mongoose = require('mongoose');
 const Handlebars = require('hbs');
+const sha1 = require("crypto-js/sha1");
+const CryptoJS = require("crypto-js");
 
 
 //define router
@@ -116,8 +118,10 @@ if(process.env.REDIS_CLOUD == 'true'){
 }
 else{
     redisClient = redis.createClient({
-    host: process.env.REDIS_HOST_LOCAL,
-    port: process.env.REDIS_PORT_LOCAL,
+      socket: {
+        host: process.env.REDIS_HOST_LOCAL,
+        port: process.env.REDIS_PORT_LOCAL,
+    }
   });
 }
 
