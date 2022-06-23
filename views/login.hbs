@@ -1,40 +1,37 @@
 <div class="container-fluid">
     <div class="card card0 border-0">
-        <div class="row d-flex">
-            <div class="col-lg-4"></div>
+        <div class="row d-flex justify-content-center">
             <div class="col-lg-4">
-                <div class="row mb-4 px-3">
-                        <h6 class="mb-0 mr-4 mt-2">SIGN IN </h6>
-                </div>
+                <h2 class="text-center">ĐĂNG NHẬP</h2>
                 {{#wrongPassword}}
-                    <b>The username and password do not match</b>
+                <b>The username and password do not match</b>
                 {{/wrongPassword}}
-                <form method="post" id="form-2">
-                    <div class="form-group">
-                        <label>Email:</label>
-                        <input type="text" name="email" id="email" placeholder="an123@gmail.com"/>
-                        <span class="form-message"></span>
+                <form method="post" id="form-2" action="/auth/login">
+                    <div class="row mb-2">
+                        <div class="col-3 p-0">
+                            <label>Email:</label>
+                        </div>
+                        <div class="col-9 p-0">
+                            <input class="w-100 border border-info" type="text" name="email" id="email" placeholder="kp6630924@gmail.com" />
+                            <span class="form-message"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Password:</label>
-                        <input type="password" name="password" id="password" placeholder="an123"/>
-                        <span class="form-message"></span>
+                    <div class="row">
+                        <div class="col-3 p-0">
+                            <label>Password:</label>
+                        </div>
+                        <div class="col-9 p-0">
+                            <input class="w-100 border border-info" type="password" name="password" id="password" placeholder="kp" />
+                            <span class="form-message"></span>
+                        </div>
                     </div>
-                        <input type="submit" value="Log In"/>
+
+                    <div class="row d-flex justify-content-end">
+                        <input type="submit" class="btn btn-success my-3" value="Đăng Nhập" />
                     </div>
-                </form>
             </div>
-            <div class="col-lg-4"></div>
+            </form>
         </div>
     </div>
 </div>
-<script src="/book-shop/js/validator.js"></script>
-<script> 
-    Validator({
-        form: "#form-2",
-        rules: [
-            Validator.isEmail("#email"),
-            Validator.minLength("#password", 3),
-        ]
-    });
-</script>
+</div>
