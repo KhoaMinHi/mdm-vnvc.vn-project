@@ -40,6 +40,7 @@ class customerController {
     async getById(req, res, next) {
         try {
             let id = req.params.id;
+            console.log(id)
             let customers = await customer.find({ _id: id });
             res.send({ customers });
         }

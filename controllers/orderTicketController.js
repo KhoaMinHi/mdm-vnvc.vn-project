@@ -47,8 +47,9 @@ return {
     },
     listByUserID: async (req, res, next) => {
         try {
-            let userID = req.body.id
-            let orderList = await orderTicket.find({accountID: userID})
+            let userID = req.params.id
+            console.log(userID)
+            let orderList = await orderTicket.find({_id: userID})
             return res.status(200).json({orderList})
             } catch (error) {
             return res.status(400).json(error);
