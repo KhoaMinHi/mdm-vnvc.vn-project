@@ -7,11 +7,9 @@ require('dotenv').config();
 const redis = require('redis');
 const connectRedis = require('connect-redis');
 const session = require('express-session');
-const passport = require('./components/auth/passport.js');
+const passport = require('./components/auth/passport');
 const mongoose = require('mongoose');
 const Handlebars = require('hbs');
-const sha1 = require("crypto-js/sha1");
-const CryptoJS = require("crypto-js");
 
 
 //define router
@@ -30,7 +28,7 @@ const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
 const orderTicketRouter = require('./routes/orderTicket')
 
-const authRouter = require('./components/auth');
+const authRouter = require('./components/auth/authRouter');
 const redisTest = require('./bin/testRedis/redis');
 const customerRouter = require('./routes/customerRouter.js');
 
@@ -54,22 +52,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//===== set router =====\\
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/order', ordersRouter);
-app.use('/vaccineList', VaccineListRouter);
-app.use('/FAQ', FAQRouter);
-app.use('/login', authRouter);
-app.use('/logout', authRouter);
-app.use('/register', authRouter);
-app.use('/register-vaccination', resgisterVaccination)
-app.use('/vaccine', vaccineRouter)
-app.use('/category', categoryRouter)
-app.use('/branch', branchRouter)
-app.use('/redis', redisTest);
-app.use('/ticket', ticketRouter)
-app.use('/orderTicket', orderTicketRouter)
 /*Connect mongodb*/
 const connectionParams={
   useNewUrlParser: true,
@@ -96,24 +78,24 @@ if(process.env.REDIS_CLOUD == 'true'){
           port: process.env.REDIS_PORT_CLOUD
       },
       password: process.env.REDIS_PASSWORD_CLOUD,
-      /*retry_strategy: function (options) {
+      retry_strategy: function (options) {
           if (options.error && options.error.code === 'ECONNREFUSED') {
               // End reconnecting on a specific error and flush all commands with
               // a individual error
               return new Error('The server refused the connection');
           }
-          if (options.total_retry_time > 1000 * 60 * 60) {
+          if (options.total_retry_time > 1000 * 60 * 60 * 24 * 365 * 10) {
               // End reconnecting after a specific timeout and flush all commands
               // with a individual error
               return new Error('Retry time exhausted');
           }
-          if (options.attempt > 1) {
+          if (options.attempt > 3) {
               // End reconnecting with built in error
               return undefined;
           }
           // reconnect after
           return Math.min(options.attempt * 100, 3000);
-      }*/
+      }
   });
 }
 else{
@@ -144,8 +126,8 @@ else{
 
 //Configure session middleware
 app.use(session({
-  store: new RedisStore({ client: redisClient }),
-  secret: 'secret$%^134',
+  //store: new RedisStore({ client: redisClient }),
+  secret: process.env.SESSION_SECRETKEY,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -158,6 +140,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next){
+  res.locals.user = req.user
+  next();
+});
 
 //===== set router =====\\
 app.use('/', indexRouter);
@@ -170,13 +156,13 @@ app.use('/vaccine', vaccineRouter)
 app.use('/category', categoryRouter)
 app.use('/branch', branchRouter)
 app.use('/orderTicket', orderTicketRouter)
+app.use('/ticket', ticketRouter)
+app.use('/orderTicket', orderTicketRouter)
+
 //khoa
 app.use('/redis', redisTest);
-app.use('/login', authRouter);
-app.use('/logout', authRouter);
-app.use('/register', authRouter);
+app.use('/auth', authRouter);
 app.use('/customer', customerRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
