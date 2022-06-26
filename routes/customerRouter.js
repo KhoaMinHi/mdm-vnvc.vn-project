@@ -9,6 +9,7 @@ router.get('/id/:id', customer.getById);
 router.get('/register', customer.registerHtml);
 router.post('/register', customer.register);
 router.post('/activate', customer.activate);
+router.get('/info', customer.getInfo);
 
 //test login with passport
 router.post('/add', 

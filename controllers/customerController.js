@@ -3,6 +3,19 @@ const apiProvincesVN = require("../components/apiProvincesVN");
 const registerCustomerService = require('../components/customerRegisterService.js')
 
 class customerController {
+    async getInfo(req, res, next) {
+        try {
+            if(!req.user) res.render('login', {noticeLogin:true});
+            else{
+                let birth = req.user.birth;
+                res.render('customerInfo', {customer:req.user});
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(400).send("Error in fetching customers");
+        }
+    };
     async getAll(req, res, next) {
         try {
             let customers = await customer.find();

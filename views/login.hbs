@@ -2,6 +2,12 @@
     <div class="card card0 border-0">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-4">
+                {{#noticeLogin}}
+                <h1 class="text-center text-danger">Bạn cần login để xem thông tin tài khoản!</h1>
+                {{/noticeLogin}}
+                {{#notice}}
+                <h1 class="text-center text-danger">{{this}}</h1>
+                {{/notice}}
                 <h2 class="text-center">ĐĂNG NHẬP</h2>
                 {{#wrongPassword}}
                 <b>The username and password do not match</b>
@@ -28,6 +34,9 @@
 
                     <div class="row d-flex justify-content-end">
                         <input type="submit" class="btn btn-success my-3" value="Đăng Nhập" />
+                    </div>
+                    <div class="row text-center">
+                        <p class="mt-4">Bạn chưa có tài khoản? <a href="/customer/register">Đăng ký</a></p>
                     </div>
             </div>
             </form>
