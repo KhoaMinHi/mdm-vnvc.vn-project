@@ -21,10 +21,15 @@ class authCustomer {
     };
     logout(req, res, next) {
         try {
-            req.logout(function (err) {
-                if (err) { return next(err); }
-                res.redirect('/auth');
-            });
+            if(req.user){
+                req.logout(function (err) {
+                    if (err) { return next(err); }
+                    res.redirect('/auth');
+                });
+            }
+            else{
+                res.render('login', {notice: 'Bạn chưa login!'});
+            }
         }
         catch (error) {
             console.log(error);

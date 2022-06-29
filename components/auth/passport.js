@@ -3,6 +3,7 @@ const passport = require('passport')
 
 const customer = require('../../models/customerModel');
 const sha1 = require('crypto-js/sha1');
+const { use } = require('passport');
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -26,12 +27,21 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-    done(null, user.email);
+    done(null, {
+      _id: user._id, 
+      email: user.email,
+      name: user.name,
+      sex: user.sex,
+      birth: JSON.stringify(user.birth).slice(1,-2), 
+      address: user.address,
+      relPerson: user.relPerson,
+      phone: user.phone,
+    });
 });
 
-passport.deserializeUser( async function(email, done) {
-  user = await customer.findOne({ email: email}).lean();
-    return done(null, user);
+passport.deserializeUser( async function(user, done) {
+  //user = await customer.findOne({ _id: id}).lean();
+  return done(null, user);
 });
 
 

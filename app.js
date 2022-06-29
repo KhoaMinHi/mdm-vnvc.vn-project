@@ -35,10 +35,15 @@ const customerRouter = require('./routes/customerRouter.js');
 //===== create app and set configs =====\\
 const app = express();
 // view engine setup
-Handlebars.registerHelper('selectDistrics', function(cityList, idCity){
+Handlebars.registerHelper('selectDistrics', function (cityList, idCity) {
   let districtsList = cityList.filter(item => item.province_code == idCity)
   return districtsList
 })
+
+//customer sex, Male or Female
+Handlebars.registerHelper('isMale', function (value) {
+  return value == 'M';
+});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -53,17 +58,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 /*Connect mongodb*/
-const connectionParams={
+const connectionParams = {
   useNewUrlParser: true,
-  useUnifiedTopology: true 
+  useUnifiedTopology: true
 }
 
-mongoose.connect(config.URL_MONGODB,connectionParams)
-  .then( () => {
-      console.log('Connected to mongoBD!!')
+mongoose.connect(config.URL_MONGODB, connectionParams)
+  .then(() => {
+    console.log('Connected to mongoBD!!')
   })
-  .catch( (err) => {
-      console.error(`Error connecting to the mongoDb. \n${err}`);
+  .catch((err) => {
+    console.error(`Error connecting to the mongoDb. \n${err}`);
   });
 
 
@@ -71,76 +76,76 @@ mongoose.connect(config.URL_MONGODB,connectionParams)
 const RedisStore = connectRedis(session)
 //Configure redis client
 let redisClient;
-if(process.env.REDIS_CLOUD == 'true'){
-    redisClient = redis.createClient({
-      socket: {
-          host: process.env.REDIS_HOST_CLOUD,
-          port: process.env.REDIS_PORT_CLOUD
-      },
-      password: process.env.REDIS_PASSWORD_CLOUD,
-      retry_strategy: function (options) {
-          if (options.error && options.error.code === 'ECONNREFUSED') {
-              // End reconnecting on a specific error and flush all commands with
-              // a individual error
-              return new Error('The server refused the connection');
-          }
-          if (options.total_retry_time > 1000 * 60 * 60 * 24 * 365 * 10) {
-              // End reconnecting after a specific timeout and flush all commands
-              // with a individual error
-              return new Error('Retry time exhausted');
-          }
-          if (options.attempt > 3) {
-              // End reconnecting with built in error
-              return undefined;
-          }
-          // reconnect after
-          return Math.min(options.attempt * 100, 3000);
+if (process.env.REDIS_CLOUD == 'true') {
+  redisClient = redis.createClient({
+    legacyMode: true,
+    socket: {
+      host: process.env.REDIS_HOST_CLOUD,
+      port: process.env.REDIS_PORT_CLOUD
+    },
+    password: process.env.REDIS_PASSWORD_CLOUD,
+    retry_strategy: function (options) {
+      if (options.error && options.error.code === 'ECONNREFUSED') {
+        // End reconnecting on a specific error and flush all commands with
+        // a individual error
+        return new Error('The server refused the connection');
       }
+      if (options.total_retry_time > 1000 * 60 * 60 * 24 * 365 * 10) {
+        // End reconnecting after a specific timeout and flush all commands
+        // with a individual error
+        return new Error('Retry time exhausted');
+      }
+      if (options.attempt > 3) {
+        // End reconnecting with built in error
+        return undefined;
+      }
+      // reconnect after
+      return Math.min(options.attempt * 100, 3000);
+    }
   });
 }
-else{
-    redisClient = redis.createClient({
-      socket: {
-        host: process.env.REDIS_HOST_LOCAL,
-        port: process.env.REDIS_PORT_LOCAL,
+else {
+  redisClient = redis.createClient({
+    legacyMode: true,
+    socket: {
+      host: process.env.REDIS_HOST_LOCAL,
+      port: process.env.REDIS_PORT_LOCAL,
     }
   });
 }
 
-(async () => {
-  try {
-      //check connect to redis if not connect then return error
-      redisClient.on('error', async err => {
-          console.log("Can't connect to redis ", err);
-      });
 
-      redisClient.on('ready', () => {
-          console.log('Redis is ready');
-      });
-      await redisClient.connect();
-  } catch (error) {
-      console.log(error);
-      await redisClient.disconnect();
-  }
-})();
+//check connect to redis if not connect then return error
+redisClient.on('error', (err) => console.log("Can't connect to redis ", err));
+
+redisClient.on('ready', () => console.log('Redis is ready'));
+redisClient.connect().catch(console.error);
 
 //Configure session middleware
 app.use(session({
-  //store: new RedisStore({ client: redisClient }),
+  store: new RedisStore({ client: redisClient }),
   secret: process.env.SESSION_SECRETKEY,
   resave: false,
   saveUninitialized: false,
   cookie: {
-      secure: false, // if true only transmit cookie over https
-      //httpOnly: false, // if true prevent client side JS from reading the cookie 
-      maxAge: 1000 * 60 * 5 // session max age in miliseconds, 5 minutes
+    secure: false, // if true only transmit cookie over https
+    //httpOnly: false, // if true prevent client side JS from reading the cookie 
+    maxAge: 1000 * 60 * 5 // session max age in miliseconds, 5 minutes
   }
 }));
+
+app.use(function (req, res, next) {
+  if (!req.session) {
+    return next(new Error("oh no")) // handle error
+  }
+  next() // otherwise continue
+})
+
 //Configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.locals.user = req.user
   next();
 });
@@ -165,12 +170,12 @@ app.use('/auth', authRouter);
 app.use('/customer', customerRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
