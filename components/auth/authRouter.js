@@ -6,19 +6,23 @@ const passport = require('./passport')
 //path.join(__dirname, 'public') 
 //router.use(express.static(path.join(__dirname, 'public'))); 
 
+router.post("/logout", authController.logout);
+router.get("/logout", (req, res, next) => { authController.logout(req, res, next) });
+
+
 //render the login page
 router.get('/', authController.viewLogin);
 
-//router.post("/login", async (req, res, next) => {authController.login(req, res, next)});
 //simple way
-router.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/auth' }),
-    function (req, res) { res.redirect('/'); }
+router.post('/login',
+    passport.authenticate('local',
+        {
+            successRedirect: '/',
+            failureRedirect: '/auth',
+            failureMessage: true,
+        }
+    )
 );
-
-router.post("/logout", authController.logout);
-router.get("/logout", (req, res, next) => {authController.logout(req, res, next)});
-
 
 // function loggedIn(req, res, next) {
 //     if (req.user) {
