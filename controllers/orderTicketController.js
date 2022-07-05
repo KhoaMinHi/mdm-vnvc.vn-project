@@ -58,6 +58,7 @@ return {
     listAll: async (req, res, next) => {
         try {
             let orderList = await orderTicket.find()
+            console.log(orderList)
             return res.status(200).json({orderList})
             } catch (error) {
             return res.status(400).json(error);

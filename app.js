@@ -155,7 +155,7 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/order', ordersRouter);
-app.use('/Vaccine_list', VaccineListRouter);
+app.use('/Vaccinelist', VaccineListRouter);
 app.use('/FAQ', FAQRouter);
 app.use('/register-vaccination', resgisterVaccination)
 app.use('/vaccine', vaccineRouter)

@@ -5,11 +5,11 @@ function TicketController() {
     };
     return {
         add: async (req, res, next) => {
-            try {
-                formData = req.body
-                console.log(formData)
-                let injectData = new ticketModel;
-                if (!formData['vaccineChoosed'] || !formData['branchWant'] || !formData['dateInject']){
+                try {
+                    formData = req.body
+                    console.log(formData)
+                    let injectData = new ticketModel;
+                    if (!formData['vaccineChoosed'] || !formData['branchWant'] || !formData['dateInject']){
                     return res.status(400).json({
                         status: "Fail",
                         message: "Param input fail"
