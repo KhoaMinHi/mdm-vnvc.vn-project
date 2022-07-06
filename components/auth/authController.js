@@ -4,7 +4,7 @@ class authCustomer {
     viewLogin(req, res, next) {
         try {
             if(req.isAuthenticated()){
-                res.render('login', { notice: 'Bạn đã login!' });
+                res.render('login', { notice: 'Bạn đã login!' , customer: {name:req.user.name}});
             }
             else{
                 let notice=null;

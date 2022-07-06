@@ -15,7 +15,7 @@ module.exports = function sendMailCode(email, code) {
     const html = 
     `
     <div style="display: block; text-align: center;;">
-    <div><h4>Sao chép mã và dán vào ô kích hoạt!</h4></div>
+    <div><h4>Đây là mã code của quý khách. Cẩn thận không chia sẻ với bất kỳ ai!</h4></div>
     <div><h2 style="font-weight: bold;">${code}</h2></div>
     </div>
     `;

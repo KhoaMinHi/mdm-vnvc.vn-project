@@ -2,6 +2,7 @@ const customer = require("../models/customerModel");
 const apiProvincesVN = require("../components/apiProvincesVN");
 const registerCustomerService = require('../components/customerRegisterService.js');
 const sendMailCode = require('../components/sendMailCode');
+const mongoose = require("mongoose");
 
 class customerController {
     async getInfo(req, res, next) {
@@ -9,7 +10,7 @@ class customerController {
             if(!req.user) res.render('login', {noticeLogin:true});
             else{
                 let birth = req.user.birth;
-                res.render('customerInfo', {customer:req.user});
+                res.render('customers/customerInfo', {customer:req.user});
             }
         }
         catch (error) {
@@ -67,7 +68,7 @@ class customerController {
         try {
             const locations = await apiProvincesVN();
             if (locations !== undefined) {
-                res.render("registerCustomer", { locations });
+                res.render("customers/registerCustomer", { locations });
             }
             else {
                 res.send("Error in fetching provinces");
@@ -110,7 +111,7 @@ class customerController {
                     case result.invalidType[2]: return res.status(200).json(result);
                 }
             }
-            return res.status(201).render("activateCustomer", {result});
+            return res.status(201).render("customers/activateCustomer", {result});
         }
         catch (error) {
             console.log(error);
@@ -152,16 +153,17 @@ class customerController {
         try {
             const email = req.body.email;
             if(!email){
-                return res.status(401).json("Bạn chưa nhập mail!");
+                return res.status(401).json({message:"Bạn chưa nhập mail!"});
             }
             //random code
             const code = Math.floor(100000 + Math.random() * 900000); //generate 6 digit password
-            sendMailCode(email, code);
+            //is customer
             const result = await customer.findOneAndUpdate({ email: email }, { code });
+            if(!result) return res.send('Email quý không không tồn tại trong hệ thống. Vui lòng kiểm tra email đã nhập đúng chưa!')
+            
+            sendMailCode(email, code);
             if (result) {
-                return res.status(200).json({
-                    message: `Gửi Mã Thành Công. Quý khách ${result.name} vui lòng kiểm tra hộp thư email ` + String(email)
-                });
+                return res.send(`Gửi Mã Thành Công. Quý khách ${result.name} vui lòng kiểm tra hộp thư email ` + String(email));
             }
             return res.status(500).json({
                 message: "Gửi mã thất bại! Quý khách vui lòng nhập đúng email hoặc báo trung tâm để được hỗ trợ."
@@ -170,6 +172,87 @@ class customerController {
         catch (error) {
             console.log(error);
             return res.status(400).json("Error while sending code!");
+        }
+    };
+
+    //take relation person of customer
+    async getRelPerson(req, res){
+        try {
+            if(req.isAuthenticated()){
+                const _id = req.user._id;
+                const relPersonsCutomer = await customer.findById(_id, 'relPerson').lean();
+                const relPersons = relPersonsCutomer.relPerson;
+                //convert Date to ISO Date (only number)
+                relPersons.forEach(element => {
+                    element.birth = element.birth.toISOString();
+                });
+                return res.status(200).render('customers/relPersonCustomer', {relPersons})
+            }
+            else{
+                return res.render('customers/relPersonCustomer', {notice:'Bạn phải login để xem thông tin này!'});
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send("Lỗi server!");
+        }
+    }
+
+    //add new relation person of customer
+    async addRelPerson(req, res, next) {
+        try {
+            if(!req.isAuthenticated()){
+                return res.render('customers/relPersonCustomer',{notice:"Bạn cần đăng nhập để thực hiện thêm người thân!"})
+            }
+            if(!req.body.name || !req.body.phone || !req.body.birth || !req.body.sex || 
+                !req.body.province || !req.body.district || !req.body.ward || 
+                !req.body.address || !req.body.type){
+                return res.render('customers/relPersonCustomer', {notice:"Vui lòng nhập đầy đủ thông tin!"});
+            }
+            //take max id of relation person
+            // const relPersonIds = await customer.findById(req.user._id, {'relPerson.id': true, '_id': false}).lean();
+            // let id = 1;
+            
+            // if(relPersonIds){
+            //     relPersonIds.relPerson.forEach(personId => {
+            //         if(personId >= id){
+            //             id = personId++;
+            //         }
+            //     })
+            // }
+            const _id = new mongoose.Types.ObjectId();
+            const relPerson = {
+                _id,
+                name: req.body.name,
+                phone: req.body.phone,
+                birth: req.body.birth,
+                sex: req.body.sex,
+                type: req.body.type,
+                address: {
+                    region: req.body.region,
+                    province: req.body.province,
+                    district: req.body.district,
+                    ward: req.body.ward,
+                    address: req.body.address
+                }
+            };
+            
+            const customerResult = await customer.findById({ _id: req.user._id });
+            customerResult.relPerson.push(relPerson);
+            
+            const result = customerResult.relPerson[customerResult.relPerson.length - 1].isNew;
+
+            customerResult.save(function (err) {
+                if(err){
+                    console.log(err);
+                    return res.status(400).json("Lỗi server");
+                }
+                if(result) return res.render("customers/relPersonCustomer", {relPersons:customerResult.relPerson, notice: "Thêm người thân thành công!"});
+                return res.render("customers/relPersonCustomer", {notice: "Thêm người thân thất bại!"});
+            });
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(400).json("Lỗi server");
         }
     };
 }

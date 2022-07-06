@@ -10,8 +10,10 @@ router.get('/register', customer.registerHtml);
 router.post('/register', customer.register);
 router.post('/activate', customer.activate);
 router.get('/info', customer.getInfo);
-router.get('/sendcode', (req, res)=>res.render('sendMailCodeCustomer'));
-router.get('/sendcode', customer.reSendCode);
+router.get('/sendcode', (req, res)=>res.render('customers/sendMailCodeCustomer'));
+router.post('/sendcode', customer.reSendCode);
+router.get('/relation', customer.getRelPerson);
+router.post('/relation', customer.addRelPerson);
 
 //test login with passport
 router.post('/add', 

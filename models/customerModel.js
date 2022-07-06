@@ -21,11 +21,19 @@ const customerSchema = new schema(
         },
         relPerson: [
             {
-                id: { type: Number },
+                _id: { type: ObjectId },
                 name: { type: String },
+                phone: { type: String},
                 birth: { type: Date },
                 sex: { type: String },
-                type: { type: String }
+                type: { type: String },
+                address: {
+                    region: { type: String, enum: ['mienbac', 'miennam', 'mientrung'] },
+                    province: { type: String },
+                    district: { type: String },
+                    ward: { type: String },
+                    address: { type: String },
+                },
             }
         ]
     });

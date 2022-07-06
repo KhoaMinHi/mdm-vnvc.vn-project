@@ -2,11 +2,10 @@
     <div class="d-flex justify-content-center">
         <div>
             <h3 class="text-center">Gửi Mã Code</h3>
-            <div>
+            <div class="row d-flex">
                 <div>Nhập email:</div>
-                <input type="input" class="form-control" id="emailSendMail" name="email">
-                <br>
-                <input class="btn btn-success" id="sendMailCode" value="Gửi Mả">
+                <input type="input" class="form-control mb-3" id="emailSendMail" name="email">
+                <input type="submit" class="btn btn-success" id="sendMailCode" value="Gửi Mả">
             </div>
         </div>
     </div>
@@ -14,18 +13,18 @@
 
 <script>
     $(document).ready(function () {
-        $("sendMailCode").click(function () {
+        $("#sendMailCode").click(function () {
             const email = document.getElementById('emailSendMail').value;
             $.ajax({
                 //url: "/login/check",
                 type: "POST",
-                data: email,
+                data: {email},
                 success: function (data) {
-                    alert(data);
+                    alert(JSON.stringify(data));
                 },
                 error: function (err) {
                     console.log(err);
-                    alert(err);
+                    alert(JSON.stringify(err));
                 }
             });
         });
