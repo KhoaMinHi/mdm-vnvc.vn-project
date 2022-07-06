@@ -110,7 +110,14 @@
                     <button type="submit" class="btn btn-success">Hoàn thành đăng ký</button>
                 </div>
             </form>
+            <div class="text-center mt-3">
+                Đã có tài khoản? <a href="/auth">Đăng nhập</a>
+            </div>
+            <div class="text-center mt-3">
+                Không nhập được mã? <a href="/customer/sendcode">Gửi lại mã</a>
+            </div>
         </div>
+
     </div>
 </div>
 <script>
@@ -119,7 +126,7 @@
     window.onload = function () {
         (async () => {
             locationVN = await fetch('https://provinces.open-api.vn/api/?depth=3')
-                .then(res => {return res.json()});
+                .then(res => { return res.json() });
         })();
     };
 
@@ -127,14 +134,14 @@
         document.getElementById("district").innerHTML = "";
         document.getElementById("district").value = "";
         document.getElementById("ward").innerHTML = "";
-        document.getElementById("ward").value="";
+        document.getElementById("ward").value = "";
         let nameCity = document.getElementById("citySelect").value;
         cityCustomer = locationVN.filter(item => item.name == nameCity)[0];
         let districtsHTML = "";
         for (let district of cityCustomer.districts) {
             districtsHTML += `<option value="${district.name}">${district.name}</option>`;
         };
-         document.getElementById("district").innerHTML= districtsHTML;
+        document.getElementById("district").innerHTML = districtsHTML;
     }
 
     function choosedDistrict() {

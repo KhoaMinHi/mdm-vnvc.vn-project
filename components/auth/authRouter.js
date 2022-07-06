@@ -17,11 +17,16 @@ router.get('/', authController.viewLogin);
 router.post('/login',
     passport.authenticate('local',
         {
-            successRedirect: '/',
+            //successRedirect: '/',
             failureRedirect: '/auth',
             failureMessage: true,
         }
-    )
+    ),
+    (req, res) => {
+        if(req.isAuthenticated()){
+            res.render('index', {customer: {name:req.user.name}})
+        }
+    }
 );
 
 // function loggedIn(req, res, next) {

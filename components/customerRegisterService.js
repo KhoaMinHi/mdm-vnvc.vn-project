@@ -4,7 +4,7 @@ const validate  = require('deep-email-validator');
 const sha1 = require("crypto-js/sha1");
 const redisClient = require("./redisService");
 
-module.exports = async function registerCustomerService(hostRegister, customerRegisterData) {
+const registerCustomerService = async function registerCustomerService(hostRegister, customerRegisterData) {
   let result = {
     success: 1, 
     type: 'success', 
@@ -55,12 +55,12 @@ module.exports = async function registerCustomerService(hostRegister, customerRe
   return result;
 }
 
-module.exports = async function getProvinceRegion(province){
+const getProvinceRegion = async function getProvinceRegion(province){
   region = await redisClient.HGET("province:region", province);
   return region;
 }
 
-module.exports = function sendMailCode(customer, hostRegister) {
+function sendMailCode(customer, hostRegister) {
   const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
@@ -88,3 +88,5 @@ module.exports = function sendMailCode(customer, hostRegister) {
     html, // html body
   });
 }
+
+module.exports = {registerCustomerService, getProvinceRegion}
