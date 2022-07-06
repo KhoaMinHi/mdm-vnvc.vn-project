@@ -9,7 +9,7 @@ router.get('/id/:id', customer.getById);
 router.get('/register', customer.registerHtml);
 router.post('/register', customer.register);
 router.post('/activate', customer.activate);
-router.get('/info', customer.getInfo);
+router.get('/activate', customer.activate);
 router.get('/sendcode', (req, res)=>res.render('customers/sendMailCodeCustomer'));
 router.post('/sendcode', customer.reSendCode);
 router.get('/relation', customer.getRelPerson);

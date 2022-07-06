@@ -1,24 +1,61 @@
 <div class="container">
+    {{#notice}}
+    {{!-- <div class="alert alert-warning" role="alert">
+        {{this}}
+    </div> --}}
+    <!-- Modal -->
+    <div class="modal fade" id="warningRelPersonModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header d-flex justify-content-center text-warning">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                </div>
+                <div class="modal-body">
+                    {{this}}
+                </div>
+                <div class="modal-footer">
+                    <button id="hideNoticeRelPerson" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/notice}}
     <div class="d-flex justify-content-center">
         <div>
             <h3 class="text-center">Gửi Mã Code</h3>
-            <div class="row d-flex">
+            <form method="post">
+                <div class="row d-flex">
                 <div>Nhập email:</div>
                 <input type="input" class="form-control mb-3" id="emailSendMail" name="email">
                 <input type="submit" class="btn btn-success" id="sendMailCode" value="Gửi Mả">
             </div>
+            </form>
+            <div class="text-center mt-3">
+                Quay lại đăng ký? <a href="/customer/register">Quay</a>
+            </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
+        $(window).on('load', function () {
+            $('#warningRelPersonModal').modal('show');
+        });
+        $(document).ready(() => {
+            $('#hideNoticeRelPerson').click(() => {
+                $('#warningRelPersonModal').modal('hide');
+            })
+        })
+    </script>
+<script>
+    /*$(document).ready(function () {
         $("#sendMailCode").click(function () {
             const email = document.getElementById('emailSendMail').value;
             $.ajax({
                 //url: "/login/check",
                 type: "POST",
-                data: {email},
+                data: { email },
                 success: function (data) {
                     alert(JSON.stringify(data));
                 },
@@ -28,5 +65,5 @@
                 }
             });
         });
-    });
+    });*/
 </script>

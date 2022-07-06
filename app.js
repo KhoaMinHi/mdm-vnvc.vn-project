@@ -131,7 +131,7 @@ app.use(session({
   cookie: {
     //secure: false, // if true only transmit cookie over https
     //httpOnly: false, // if true prevent client side JS from reading the cookie 
-    maxAge: 1000 * 60 * 5 // session max age in miliseconds, 5 minutes
+    maxAge: 1000 * 60 * 34 // session max age in miliseconds, 5 minutes
   }
 }));
 

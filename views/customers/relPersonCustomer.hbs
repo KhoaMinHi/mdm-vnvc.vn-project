@@ -37,6 +37,7 @@
           <th scope="col">Ngày sinh</th>
           <th scope="col">Giới tính</th>
           <th scope="col">Quan hệ</th>
+          <th scope="col">Địa chỉ</th>
         </tr>
       </thead>
       <tbody>
@@ -48,6 +49,8 @@
           <td>{{this.birth}}</td>
           <td>{{#if (isMale this.sex)}}Nam{{else}}Nữ{{/if}}</td>
           <td>{{this.type}}</td>
+          <td>{{this.address.region}}, {{this.address.province}}, {{this.address.district}}, {{this.address.ward}},
+            {{this.address.address}}</td>
         </tr>
         {{/each}}
       </tbody>
@@ -57,7 +60,7 @@
   <div style="margin: 100px auto 40px; border:solid 1px">
 
   </div>
-
+  {{#with relPersons}}
   <div class="d-flex justify-content-center">
     <div>
       <h2 class="text-center">Thêm người thân</h2>
@@ -119,9 +122,6 @@
               oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
               required>
               <option value="">Chọn tỉnh thành</option>
-              {{#each locations}}
-              <option value="{{this.name}}">{{this.name}}</option>
-              {{/each}}
             </select>
           </div>
           <div class="col-md-4">
@@ -156,7 +156,7 @@
       </form>
     </div>
   </div>
-
+  {{/with}}
 
   <script type="text/javascript">
     $(window).on('load', function () {
@@ -179,9 +179,9 @@
       })();
     };
 
-    function pushCityInputBox(){
+    function pushCityInputBox() {
       let provincesNameHTML = `<option value="">Chọn tỉnh thành</option>`;
-      for(province of locationVN){
+      for (province of locationVN) {
         provincesNameHTML += `<option value="${province.name}">${province.name}</option>`;
       }
       document.getElementById("citySelect").innerHTML = provincesNameHTML;
