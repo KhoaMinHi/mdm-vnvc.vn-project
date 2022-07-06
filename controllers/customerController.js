@@ -1,6 +1,7 @@
 const customer = require("../models/customerModel");
 const apiProvincesVN = require("../components/apiProvincesVN");
-const registerCustomerService = require('../components/customerRegisterService.js')
+const registerCustomerService = require('../components/customerRegisterService.js');
+const sendMailCode = require('../components/sendMailCode');
 
 class customerController {
     async getInfo(req, res, next) {
@@ -100,7 +101,7 @@ class customerController {
             //initialize customer document
             let customerRegisterData = new customer(data);
             
-            const hostRegister = req.headers.host; //to send active link to customer
+            const hostRegister = req.headers.host; //to send active link to customer email
             const result = await registerCustomerService(hostRegister, customerRegisterData);
             if (result.success = 0) {
                 switch (result.type) {
@@ -149,23 +150,26 @@ class customerController {
     };
     async reSendCode(req, res, next) {
         try {
-            const id = req.body.id;
-            const code = req.body.code;
-            const result = await customer.findOneAndUpdate({ email: email, active: false, code: code }, { active: true });
-            if (result.active) {
-                return res.status(201).json({
-                    data: { id: result._id, name: result.name },
-                    message: "Activated Customer Successfully!"
+            const email = req.body.email;
+            if(!email){
+                return res.status(401).json("Bạn chưa nhập mail!");
+            }
+            //random code
+            const code = Math.floor(100000 + Math.random() * 900000); //generate 6 digit password
+            sendMailCode(email, code);
+            const result = await customer.findOneAndUpdate({ email: email }, { code });
+            if (result) {
+                return res.status(200).json({
+                    message: `Gửi Mã Thành Công. Quý khách ${result.name} vui lòng kiểm tra hộp thư email ` + String(email)
                 });
             }
-            return res.status(400).json({
-                data: { email: result.email, name: result.name },
-                message: "Activated Customer Fail!"
+            return res.status(500).json({
+                message: "Gửi mã thất bại! Quý khách vui lòng nhập đúng email hoặc báo trung tâm để được hỗ trợ."
             });
         }
         catch (error) {
             console.log(error);
-            return res.status(400).json("Error in activating customer!");
+            return res.status(400).json("Error while sending code!");
         }
     };
 }

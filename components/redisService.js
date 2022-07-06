@@ -47,12 +47,13 @@ console.log("host: ", process.env.REDIS_HOST_CLOUD + ", port: " + process.env.RE
         });
 
         redisClient.on('ready', () => {
-            console.log('Redis is ready');
+            console.log('Redis is ready (config in redisService.js)');
         });
         await redisClient.connect();
     } catch (error) {
         console.log(error);
         await redisClient.disconnect();
+        await redisClient.connect();
     }
 })();
 

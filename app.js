@@ -127,8 +127,9 @@ app.use(session({
   secret: process.env.SESSION_SECRETKEY,
   resave: false,
   saveUninitialized: false,
+  //unset: "destroy",
   cookie: {
-    secure: false, // if true only transmit cookie over https
+    //secure: false, // if true only transmit cookie over https
     //httpOnly: false, // if true prevent client side JS from reading the cookie 
     maxAge: 1000 * 60 * 34 // session max age in miliseconds, 5 minutes
   }

@@ -23,7 +23,7 @@ module.exports = async function registerCustomerService(hostRegister, customerRe
   //   return result;
   // }
   
-  //check existed email
+  //check existed email in database
   const existedEmail = await customer.find({ email: customerRegisterData.email });
   if (!existedEmail || existedEmail == undefined) {
     if(existedEmail.active = true){
@@ -55,12 +55,12 @@ module.exports = async function registerCustomerService(hostRegister, customerRe
   return result;
 }
 
-async function getProvinceRegion(province){
+module.exports = async function getProvinceRegion(province){
   region = await redisClient.HGET("province:region", province);
   return region;
 }
 
-function sendMailCode(customer, hostRegister) {
+module.exports = function sendMailCode(customer, hostRegister) {
   const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
