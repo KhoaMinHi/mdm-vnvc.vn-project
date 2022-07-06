@@ -46,14 +46,14 @@
           <ul>
             <li><a class="bi bi-house-door " href="/">Trang Chủ</a></li>
             <li><a class="bi bi-geo-alt" href="#">Tìm Trung Tâm</a></li>
-            <li><a class="bi bi-calendar" href="#">Đăng ký tiêm</a></li>
+            <li><a class="bi bi-calendar" href="/register-vaccination">Đăng ký tiêm</a></li>
             <li><a class="bi bi-list-ul " href="/vaccineList">Danh sách Vắc xin</a></li>
             <li><a class="bi bi-cart3" href="/order">Đặt mua vacxin</a></li>
             <li><a class="bi bi-question-square" href="/FAQ">Tư Vấn</a></li>
             <li class="dropdown"><a class="bi bi-person-square" href="#"><span>Tài khoản</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
                 <li><a class = "bi bi-person-square" href="/customer/info">Thông tin cá nhân</a></li>
-                <li><a class = "bi bi-cart3" href="#">Danh sách đặt mua</a></li>
+                <li><a class = "bi bi-cart3" href="/orderHistory/{{user._id}}">Danh sách đặt mua</a></li>
                 <li><a class = "bi bi-list-ul" href="#">Vắc xin đã tiêm</a></li>
                 <li><a class = "bi bi-box-arrow-in-right" href="/auth">Đăng nhập</a></li>
                 <li><a class = "bi bi-box-arrow-right" href="/auth/logout">Thoát</a></li>
@@ -152,6 +152,5 @@
 
   <!-- Template Main JS File -->
   <script src="../js/main.js"></script>
-  <script src="../js/test.js"></script>
   </body>
 </html>

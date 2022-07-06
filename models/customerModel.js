@@ -5,7 +5,7 @@ const ObjectId = schema.ObjectId;
 const customerSchema = new schema(
     {
         email: { type: String, required: true, unique: true },
-        password: { type: String, required: true, default: '12345678' },
+        password: { type: String, required: true },
         active: { type: Boolean, default: false },
         code: { type: Number, default: null },
         phone: { type: String, required: true, unique: true },
@@ -21,10 +21,12 @@ const customerSchema = new schema(
         },
         relPerson: [
             {
-                id: { type: Number },
+                _id: { type: String },
                 name: { type: String },
                 birth: { type: Date },
                 sex: { type: String },
+                email: { type: String },
+                phone: { type: String },
                 type: { type: String },
                 address: {
                     province: { type: String, required: true },
