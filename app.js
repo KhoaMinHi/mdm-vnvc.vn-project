@@ -27,6 +27,7 @@ const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
 const orderTicketRouter = require('./routes/orderTicket')
+const historyRouter = require('./routes/injectionHistory')
 
 const authRouter = require('./components/auth/authRouter');
 const redisTest = require('./bin/testRedis/redis');
@@ -163,6 +164,7 @@ app.use('/branch', branchRouter)
 app.use('/orderTicket', orderTicketRouter)
 app.use('/ticket', ticketRouter)
 app.use('/orderTicket', orderTicketRouter)
+app.use('/history', historyRouter)
 
 //khoa
 app.use('/redis', redisTest);

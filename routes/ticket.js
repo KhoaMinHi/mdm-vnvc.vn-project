@@ -4,6 +4,6 @@ const multer = require('multer');
 const ticket = require('../controllers/injectionTicket')
 
 router.post('/add', multer().none(), ticket.add);
-router.get('/listByUserID', ticket.listByUserID);
+router.get('/listByUserID/:userID', ticket.listByUserID);
 
 module.exports = router;

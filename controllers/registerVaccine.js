@@ -30,5 +30,26 @@ module.exports = function RegisterVaccinController() {
                 return res.status(400).json(error);
             }
         },
+        history: (req, res, next) => {
+            try {
+                if(req.user._id){
+                    fetch(`http://localhost:3000/ticket/listByUserID/${req.user._id}`)
+                        .then(response => response.json())
+                        .then(historyList => {
+                            if (historyList) {
+                                for(let item of historyList){
+                                    
+                                }
+                                res.render('registerVaccinational', { historyList });
+                            }
+                        });
+                }else{
+                    let data = "Vui lòng đăng nhập để xem lịch sử đăng ký tiêm chủng"
+                    res.render('historyVaccine', { data });
+                }
+            } catch (error) {
+                return res.status(400).json(error);
+            }
+        },
     };
 }

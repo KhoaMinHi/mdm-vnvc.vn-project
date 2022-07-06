@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 const ObjectId = schema.ObjectId;
 
-const customerSchema = new schema(
+const guestSchema = new schema(
     {
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true, default: '12345678' },
+        email: { type: String, required: false, unique: true },
+        password: { type: String, required: false, default: '12345678' },
         active: { type: Boolean, default: false },
         code: { type: Number, default: null },
         phone: { type: String, required: false, unique: true },
