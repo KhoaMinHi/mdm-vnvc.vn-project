@@ -46,30 +46,6 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
-
-        <a href="#" class="logo me-auto"><img src="../img/logo.png" alt=""></a>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
-        <nav id="navbar" class="navbar order-last order-lg-0">
-          <ul>
-            <li><a class="bi bi-house-door " href="/">Trang Chủ</a></li>
-            <li><a class="bi bi-geo-alt" href="#">Tìm Trung Tâm</a></li>
-            <li><a class="bi bi-calendar" href="/register-vaccination">Đăng ký tiêm</a></li>
-            <li><a class="bi bi-list-ul " href="/vaccineList">Danh sách Vắc xin</a></li>
-            <li><a class="bi bi-cart3" href="/order">Đặt mua vacxin</a></li>
-            <li><a class="bi bi-question-square" href="/FAQ">Tư Vấn</a></li>
-            <li class="dropdown"><a class="bi bi-person-square" href="#"><span>Tài khoản</span> <i class="bi bi-chevron-down"></i></a>
-              <ul>
-                <li><a class = "bi bi-person-square" href="/customer/info">Thông tin cá nhân</a></li>
-                <li><a class = "bi bi-cart3" href="/orderHistory/{{user._id}}">Danh sách đặt mua</a></li>
-                <li><a class = "bi bi-list-ul" href="#">Vắc xin đã tiêm</a></li>
-                <li><a class = "bi bi-box-arrow-in-right" href="/auth">Đăng nhập</a></li>
-                <li><a class = "bi bi-box-arrow-right" href="/auth/logout">Thoát</a></li>
-              </ul>
-            </li>
-          </ul>
-          
-        </nav><!-- .navbar -->
       <a href="/" class="logo me-auto"><img src="../img/logo.png" alt=""></a>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
@@ -77,7 +53,7 @@
         <ul>
           <li><a class="bi bi-house-door " href="/">Trang Chủ</a></li>
           <li><a class="bi bi-geo-alt" href="#">Tìm Trung Tâm</a></li>
-          <li><a class="bi bi-calendar" href="#">Đăng ký tiêm</a></li>
+          <li><a class="bi bi-calendar" href="/register-vaccination">Đăng ký tiêm</a></li>
           <li><a class="bi bi-list-ul " href="/vaccineList">Danh sách Vắc xin</a></li>
           <li><a class="bi bi-cart3" href="/order">Đặt mua vacxin</a></li>
           <li><a class="bi bi-question-square" href="/FAQ">Tư Vấn</a></li>
@@ -90,7 +66,7 @@
             <ul>
               <li><a class="bi bi-person-square" href="/customer/info">Thông tin cá nhân</a></li>
               <li><a class="bi bi-people" href="/customer/relation">Người thân</a></li>
-              <li><a class="bi bi-cart3" href="#">Danh sách đặt mua</a></li>
+              <li><a class="bi bi-cart3" href="/orderHistory/{{user._id}}">Danh sách đặt mua</a></li>
               <li><a class="bi bi-list-ul" href="#">Vắc xin đã tiêm</a></li>
               <li><a class="bi bi-pencil-square" href="/customer/register">Đăng ký</a></li>
               <li><a class="bi bi-box-arrow-in-right" href="/auth">Đăng nhập</a></li>
