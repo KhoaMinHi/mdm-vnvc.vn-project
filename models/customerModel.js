@@ -5,7 +5,7 @@ const ObjectId = schema.ObjectId;
 const customerSchema = new schema(
     {
         email: { type: String, required: true, unique: true },
-        password: { type: String, required: true, default: '12345678' },
+        password: { type: String, required: true },
         active: { type: Boolean, default: false },
         code: { type: Number, default: null },
         phone: { type: String, required: false, unique: true },
@@ -21,12 +21,20 @@ const customerSchema = new schema(
         },
         relPerson: [
             {
-                id: { type: Number },
+                _id: { type: ObjectId },
                 name: { type: String },
                 birth: { type: Date },
                 sex: { type: String },
                 type: { type: String },
                 phone: {type: String},
+                email: { type: String },
+                address: {
+                    region: { type: String, enum: ['mienbac', 'miennam', 'mientrung'] },
+                    province: { type: String },
+                    district: { type: String },
+                    ward: { type: String },
+                    address: { type: String },
+                },
             }
         ]
     });

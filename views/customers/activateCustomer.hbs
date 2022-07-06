@@ -1,0 +1,60 @@
+<div class="container">
+    {{#notice}}
+    {{!-- <div class="alert alert-warning" role="alert">
+        {{this}}
+    </div> --}}
+    <!-- Modal -->
+    <div class="modal fade" id="warningRelPersonModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header d-flex justify-content-center text-warning">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                </div>
+                <div class="modal-body">
+                    {{this}}
+                </div>
+                <div class="modal-footer">
+                    <button id="hideNoticeRelPerson" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/notice}}
+    <div class="d-flex justify-content-center">
+        <div>
+            <h3 class="text-center">Kích Hoạt Tài Khoản</h3>
+            <form class="was-validated mb-3" method="post" action="/customer/activate">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="inputNameFamily">Mã kích hoạt (*)</label>
+                        <input type="input" class="form-control" id="inputName" name="code"
+                            oninvalid="this.setCustomValidity('Vui lòng nhập mã kích hoạt!')"
+                            onchange="this.setCustomValidity('')" required>
+                        <div class="invalid-feedback">Vui lòng nhập mã kích hoạt.</div>
+                    </div>
+                </div><br />
+                <div>
+                    <input type="hidden" value="{{result.email}}" name="email">
+                </div>
+                <div>
+                    <input class="btn btn-success" type="submit" value="Kích Hoạt">
+                </div>
+            </form>
+            <div>
+                <a href="/customer/sendcode">Gửi mã khác</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(window).on('load', function () {
+            $('#warningRelPersonModal').modal('show');
+        });
+        $(document).ready(() => {
+            $('#hideNoticeRelPerson').click(() => {
+                $('#warningRelPersonModal').modal('hide');
+            })
+        })
+    </script>
+</div>

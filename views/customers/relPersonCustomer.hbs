@@ -1,0 +1,214 @@
+<div class="container">
+  <div class="d-flex justify-content-center">
+    {{#notice}}
+    {{!-- <div class="alert alert-warning" role="alert">
+      {{this}}
+    </div> --}}
+    <!-- Modal -->
+    <div class="modal fade" id="warningRelPersonModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+          <div class="modal-header d-flex justify-content-center text-warning">
+            <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+          </div>
+          <div class="modal-body">
+            {{this}}
+          </div>
+          <div class="modal-footer">
+            <button id="hideNoticeRelPerson" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/notice}}
+    {{#noticeAddingRelPerson}}
+    <h2 class="text-info text-center">{{this}}</h2>
+    {{/noticeAddingRelPerson}}
+  </div>
+  <div>
+    <h2 class="text-success text-center">Danh Sách Người Thân</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Mã</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Điện thoại</th>
+          <th scope="col">Ngày sinh</th>
+          <th scope="col">Giới tính</th>
+          <th scope="col">Quan hệ</th>
+          <th scope="col">Địa chỉ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each relPersons}}
+        <tr>
+          <td>{{this._id}}</td>
+          <td>{{this.name}}</td>
+          <td>{{this.phone}}</td>
+          <td>{{this.birth}}</td>
+          <td>{{#if (isMale this.sex)}}Nam{{else}}Nữ{{/if}}</td>
+          <td>{{this.type}}</td>
+          <td>{{this.address.region}}, {{this.address.province}}, {{this.address.district}}, {{this.address.ward}},
+            {{this.address.address}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin: 100px auto 40px; border:solid 1px">
+
+  </div>
+  {{#with relPersons}}
+  <div class="d-flex justify-content-center">
+    <div>
+      <h2 class="text-center">Thêm người thân</h2>
+      <form class="was-validated mb-3" method="post">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="inputName">Họ tên(*)</label>
+            <input type="input" class="form-control" id="inputName" name="name"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+            <div class="invalid-feedback">Vui lòng điền thông tin.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="inputBirtDay">Ngày sinh(*)</label>
+            <input type="datetime-local" class="form-control" id="birtd" name="birth"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+            <div class="invalid-feedback">Vui lòng điền thông tin.</div>
+          </div>
+        </div><br />
+        <div class="row">
+          <div class="col-md-6">
+            <label for="inputCustomer">Số điện thoại (*)</label>
+            <input type="input" class="form-control" id="customerID" name="phone"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+            <div class="invalid-feedback">Vui lòng điền thông tin.</div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="inputAddress">Giới tính (*)</label>
+              <div class="custom-control custom-radio from-check">
+                <input type="radio" class="custom-control-input form-check-input" id="customControlValidation2"
+                  value="M" name="sex" oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')"
+                  onchange="this.setCustomValidity('')" required>
+                <label class="custom-control-label" for="customControlValidation2">Nam</label>
+              </div>
+              <div class="custom-control custom-radio mb-3">
+                <input type="radio" class="custom-control-input form-check-input" id="customControlValidation3"
+                  value="F" name="sex" required>
+                <label class="custom-control-label" for="customControlValidation3">Nữ</label>
+              </div>
+            </div>
+          </div>
+        </div><br />
+        <div class="row">
+          <div class="col-md-12">
+            <label for="inputStreet">Mối quan hệ với chủ tài khoản (*)</label>
+            <input type="input" class="form-control" name="type"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+          </div><br>
+        </div>
+        {{!-- province, district, ward --}}
+        <div class="row">
+          <div class="col-md-4">
+            <label for="inputCity">Tỉnh thành (*)</label>
+            <select class="form-select" id="citySelect" onchange="choosedCity()" name="province"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+              <option value="">Chọn tỉnh thành</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="inputDistrict">Quận huyện (*)</label>
+            <select class="form-select" id="district" onchange="choosedDistrict()" name="district"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+              <option value="">Chọn quận huyện</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="inputWard">Phường xã (*)</label>
+            <select class="form-select" id="ward" name="ward"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+            </select>
+          </div>
+        </div><br />
+        {{!-- address --}}
+        <div class="row">
+          <div class="col-md-12">
+            <label for="inputStreet">Số nhà, tên đường (*)</label>
+            <input type="input" class="form-control" id="street" name="address"
+              oninvalid="this.setCustomValidity('Vui lòng điền thông tin!')" onchange="this.setCustomValidity('')"
+              required>
+          </div>
+        </div>
+        <br />
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success">Thêm Người Thân Mới</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {{/with}}
+
+  <script type="text/javascript">
+    $(window).on('load', function () {
+      $('#warningRelPersonModal').modal('show');
+    });
+    $(document).ready(() => {
+      $('#hideNoticeRelPerson').click(() => {
+        $('#warningRelPersonModal').modal('hide');
+      })
+    })
+
+    //insert new relation person of customer
+    var locationVN = null;
+    var cityCustomer = null;
+    window.onload = function () {
+      (async () => {
+        locationVN = await fetch('https://provinces.open-api.vn/api/?depth=3')
+          .then(res => { return res.json() });
+        pushCityInputBox();
+      })();
+    };
+
+    function pushCityInputBox() {
+      let provincesNameHTML = `<option value="">Chọn tỉnh thành</option>`;
+      for (province of locationVN) {
+        provincesNameHTML += `<option value="${province.name}">${province.name}</option>`;
+      }
+      document.getElementById("citySelect").innerHTML = provincesNameHTML;
+    }
+
+    function choosedCity() {
+      document.getElementById("district").innerHTML = "";
+      document.getElementById("district").value = "";
+      document.getElementById("ward").innerHTML = "";
+      document.getElementById("ward").value = "";
+      let nameCity = document.getElementById("citySelect").value;
+      cityCustomer = locationVN.filter(item => item.name == nameCity)[0];
+      let districtsHTML = `<option value="">Chọn quận huyện</option>`;
+      for (let district of cityCustomer.districts) {
+        districtsHTML += `<option value="${district.name}">${district.name}</option>`;
+      };
+      document.getElementById("district").innerHTML = districtsHTML;
+    }
+
+    function choosedDistrict() {
+      let nameDistrict = document.getElementById("district").value;
+      let wards = cityCustomer.districts.filter(item => item.name == nameDistrict)
+      let wardsHTML = "";//`<option value="">Chọn huyện trước!</option>`
+      for (let ward of wards[0].wards) {
+        wardsHTML += `<option value="${ward.name}">${ward.name}</option>`
+      }
+      document.getElementById("ward").innerHTML = wardsHTML
+    }
+  </script>
+</div>

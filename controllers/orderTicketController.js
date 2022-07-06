@@ -1,5 +1,6 @@
 const orderTicket = require('../models/orderTicket')
 const customer = require('../models/customerModel')
+
 function orderTicketController() {
 const SELF = {
 };
@@ -7,37 +8,67 @@ return {
     add: async (req, res, next) => {
         try {
             formData = req.body
-            console.log(formData)
+            
             let orderData = new orderTicket;
-            let cusData = new customer;
-            if (!formData['vaccineChoosed'] || !formData['branchWant'] || !formData['dateInject']){
+            console.log(formData)
+            if (!formData['vaccineChoosed'] || !formData['branchWant']){
                 return res.status(400).json({
                     status: "Fail",
                     message: "Param input fail"
                 })
             }
-            cusData.email = formData['emailContact']
-            cusData.phone = formData['phoneContact']
-            cusData.name = formData['nameInject']
-            cusData.birth = formData['birthInject']
-            cusData.sex = formData['radio-gender']
-            cusData.province = formData['inputCity']
-            cusData.district = formData['inputDistrict']
-            cusData.ward = formData['inputWard']
-            cusData.address.province = formData['inputCity'][0]
-            cusData.address.district = formData['inputDistrict']
-            cusData.address.ward = formData['inputWard']
-            cusData.address.address = formData['street']
-            
 
-            orderData.accountID = formData['accountID']
-            orderData.vaccineChoose = formData['vaccineChoosed']
-            orderData.branchID = formData['branchWant']
-            orderData.dateInject = formData['dateInject']
-            orderData.injectPersonID = formData['injectPersonID']
-            console.log(cusData)
-            await orderData.save()
-            await cusData.save()
+            //check type of relationship
+            if(formData['relationship'] != '0')
+            { 
+                //generate ObjectID
+                const os = require('os');
+                const crypto = require('crypto');
+                const seconds = Math.floor(new Date()/1000).toString(16);
+                const machineId = crypto.createHash('md5').update(os.hostname()).digest('hex').slice(0, 6);
+                const processId = process.pid.toString(16).slice(0, 4).padStart(4, '0');
+                const counter = process.hrtime()[1].toString(16).slice(0, 6).padStart(6, '0');
+                relPersonID = seconds + machineId + processId + counter;
+
+                //insert relPerson into customer
+                await customer.findOneAndUpdate(
+                    {  _id : formData['userId']},
+                    {
+                        $addToSet: {
+                            relPerson:[{
+                                _id: relPersonID,
+                                name: formData['nameInject'],
+                                birth: formData['birthInject'],
+                                sex: formData['radio-gender'],
+                                type: formData['relationship'],
+                                email: formData['emailContact'],
+                                phone: formData['phoneContact'],
+                                address: {
+                                    province: formData['inputCity'][0],
+                                    district: formData['inputDistrict'],
+                                    ward: formData['inputWard'],
+                                    address: formData['street'],
+                                },
+                            }]
+                        }
+                    }
+                ),
+
+                //insert orderData
+                orderData.userID = formData['userId']
+                orderData.customerID = relPersonID
+                orderData.vaccineChoose = formData['vaccineChoosed']
+                orderData.branchID = formData['branchWant']
+                console.log(orderData)
+                await orderData.save()
+            }
+            else{
+                orderData.userID = formData['userId']
+                orderData.vaccineChoose = formData['vaccineChoosed']
+                orderData.branchID = formData['branchWant']
+                console.log(orderData)
+                await orderData.save()
+            }
             return res.status(200).json({
                 status: "Success"
             })
@@ -48,8 +79,8 @@ return {
     listByUserID: async (req, res, next) => {
         try {
             let userID = req.params.id
-            console.log(userID)
-            let orderList = await orderTicket.find({_id: userID})
+            console.log(userID.slice(3))
+            let orderList = await orderTicket.find({userID: userID.slice(3)})
             return res.status(200).json({orderList})
             } catch (error) {
             return res.status(400).json(error);
@@ -58,6 +89,7 @@ return {
     listAll: async (req, res, next) => {
         try {
             let orderList = await orderTicket.find()
+            console.log(orderList)
             return res.status(200).json({orderList})
             } catch (error) {
             return res.status(400).json(error);

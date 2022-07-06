@@ -1,0 +1,9 @@
+<div class="row">
+    {{#each orderList}} 
+    <h4 class="description">STT: {{@index}}</h4>
+    <h4 class="description">Vaccine đã chọn: {{this.vaccineChoose}}</h4>
+    <h4 class="description">Trạng thái: {{this.status}}</h4>
+    <h4 class="description">Ngày đặt: {{this.createdAt}}</h4>
+    <h4 class="description">---------------------</h4>
+    {{/each}}
+</div>

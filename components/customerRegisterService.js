@@ -4,7 +4,7 @@ const validate  = require('deep-email-validator');
 const sha1 = require("crypto-js/sha1");
 const redisClient = require("./redisService");
 
-module.exports = async function registerCustomerService(hostRegister, customerRegisterData) {
+const registerCustomerService = async function registerCustomerService(hostRegister, customerRegisterData) {
   let result = {
     success: 1, 
     type: 'success', 
@@ -23,7 +23,7 @@ module.exports = async function registerCustomerService(hostRegister, customerRe
   //   return result;
   // }
   
-  //check existed email
+  //check existed email in database
   const existedEmail = await customer.find({ email: customerRegisterData.email });
   if (!existedEmail || existedEmail == undefined) {
     if(existedEmail.active = true){
@@ -55,7 +55,7 @@ module.exports = async function registerCustomerService(hostRegister, customerRe
   return result;
 }
 
-async function getProvinceRegion(province){
+const getProvinceRegion = async function getProvinceRegion(province){
   region = await redisClient.HGET("province:region", province);
   return region;
 }
@@ -88,3 +88,5 @@ function sendMailCode(customer, hostRegister) {
     html, // html body
   });
 }
+
+module.exports = {registerCustomerService, getProvinceRegion}
