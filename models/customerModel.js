@@ -25,7 +25,13 @@ const customerSchema = new schema(
                 name: { type: String },
                 birth: { type: Date },
                 sex: { type: String },
-                type: { type: String }
+                type: { type: String },
+                address: {
+                    province: { type: String, required: true },
+                    district: { type: String, required: true },
+                    ward: { type: String, required: true },
+                    address: { type: String, required: true },
+                },
             }
         ]
     });

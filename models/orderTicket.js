@@ -3,12 +3,10 @@ const schema = mongoose.Schema;
 
 const orderTicket = new schema(
 {
+    accountID: {type: String},
     vaccineChoose: {type: Array, required: true},
     branchID: {type: String, required: true},
-    dateInject: {type: String, required: true},
-    accountID: {type: String},
-    injectPersonID: {type: String},
-    status: {type: Number, default: 0}
+    status: {type: String, default: 'Wait for check out'}
 },
 { timestamps: true }
 );
