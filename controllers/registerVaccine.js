@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const moment = require('moment')
 
 module.exports = function RegisterVaccinController() {
     const SELF = {
@@ -30,17 +31,40 @@ module.exports = function RegisterVaccinController() {
                 return res.status(400).json(error);
             }
         },
-        history: (req, res, next) => {
+        history: async (req, res, next) => {
             try {
+                let result = []
                 if(req.user._id){
-                    fetch(`http://localhost:3000/ticket/listByUserID/${req.user._id}`)
+                   await fetch(`http://localhost:3000/ticket/listByUserID/${req.user._id}`)
                         .then(response => response.json())
                         .then(historyList => {
                             if (historyList) {
-                                for(let item of historyList){
-                                    
-                                }
-                                res.render('registerVaccinational', { historyList });
+                                fetch(`http://localhost:3000/customer/id/${req.user._id}`)
+                                    .then(response => response.json())
+                                    .then(customerInfo => {
+                                        if (customerInfo) {
+                                            for(let el of historyList.ticketlist){
+                                                let personInject = {}
+                                                if(el.injectPersonID === req.user._id) {
+                                                    result.push({
+                                                        "code": el._id,
+                                                        "nameInject": req.user.name,
+                                                        "createTime": moment(el.createdAt).format('YYYY/MM/DD hh:mm:ss'),
+                                                        "status": el.status === 0 ? "Đã đăng ký" : "Đã tiêm",
+                                                    })
+                                                }else{
+                                                    personInject = customerInfo.customers[0].relPerson.filter(item => item._id === el.injectPersonID)[0]
+                                                    result.push({
+                                                        "code": el._id,
+                                                        "nameInject": personInject.name,
+                                                        "createTime": moment(el.createdAt).format('YYYY/MM/DD hh:mm:ss'),
+                                                        "status": el.status === 0 ? "Đã đăng ký" : "Đã tiêm",
+                                                    })
+                                                }
+                                            }
+                                            res.render('historyVaccine', { result });
+                                        }
+                                    });
                             }
                         });
                 }else{
