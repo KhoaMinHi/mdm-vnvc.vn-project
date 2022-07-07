@@ -19,7 +19,7 @@
             </thead>
             <tbody >
                 {{#each vaccines}}
-                <tr >
+                <tr id="row{{this._id}}">
                     <td>{{this._id}}</td>
                     <td>{{this.name}}</td>
                     <td>{{this.price}}</td>
@@ -43,7 +43,7 @@
 
 <script>
     $(document).ready(function () {
-        $('button.delete').click(function () {
+        $("button.delete").click(function () {
             let _id = $(this).val();
             let url = `/vaccine/${_id}`;
 
@@ -54,7 +54,10 @@
                 async: true,
                 success: function (data) {
                     //$('#resultModifyPlayer').html(data);
-                    $(`#row${_id}`).remove();
+                    if(data.success){
+                        $(`#row${_id}`).remove();
+                    }
+                    alert(data.notice);
                 },
                 error: function (err) {
                     alert('Không xóa được!')

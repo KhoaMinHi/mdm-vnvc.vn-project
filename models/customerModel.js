@@ -2,10 +2,28 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 const ObjectId = schema.ObjectId;
 
+const relPerson = new schema (
+    {
+        name: { type: String},
+        birth: { type: Date },
+        sex: { type: String },
+        type: { type: String },
+        phone: {type: String},
+        email: { type: String },
+        address: {
+            region: { type: String, enum: ['mienbac', 'miennam', 'mientrung'] },
+            province: { type: String },
+            district: { type: String },
+            ward: { type: String },
+            address: { type: String },
+        },
+    }
+)
+
 const customerSchema = new schema(
     {
         email: { type: String, required: true, unique: true },
-        password: { type: String, required: true, default: '12345678' },
+        password: { type: String, required: true },
         active: { type: Boolean, default: false },
         code: { type: Number, default: null },
         phone: { type: String, required: true },
@@ -19,23 +37,7 @@ const customerSchema = new schema(
             ward: { type: String, required: true },
             address: { type: String, required: true },
         },
-        relPerson: [
-            {
-                _id: { type: ObjectId },
-                name: { type: String },
-                phone: { type: String},
-                birth: { type: Date },
-                sex: { type: String },
-                type: { type: String },
-                address: {
-                    region: { type: String, enum: ['mienbac', 'miennam', 'mientrung'] },
-                    province: { type: String },
-                    district: { type: String },
-                    ward: { type: String },
-                    address: { type: String },
-                },
-            }
-        ]
+        relPerson: [relPerson]
     });
 
 module.exports = mongoose.model("customer", customerSchema);

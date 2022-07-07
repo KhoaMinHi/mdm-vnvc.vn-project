@@ -1,1 +1,16 @@
 <h1>Lịch sử tiêm chủng</h1>
+<div class="container">
+  <div class="list-group">
+    {{#each result}}
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Mã đơn tiêm: {{this.code}}</h5>
+      <small>{{this.status}}</small>
+    </div>
+    <p class="mb-1">Người tiêm: {{this.nameInject}}</p>
+    <small>Ngày tạo: {{this.createTime}}</small>
+  </a>
+  {{/each}}
+</div>
+</div>
+

@@ -82,6 +82,7 @@ class customerController {
     };
     async register(req, res, next) {
         try {
+            console.log(req.body)
             const data = {
                 email: req.body.email,
                 password: req.body.password,

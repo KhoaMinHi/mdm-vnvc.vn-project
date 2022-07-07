@@ -27,6 +27,8 @@ const categoryRouter = require('./routes/category')
 const branchRouter = require('./routes/branch')
 const ticketRouter = require('./routes/ticket')
 const orderTicketRouter = require('./routes/orderTicket')
+const historyRouter = require('./routes/injectionHistory')
+const orderHistoryRouter = require('./routes/orderHistory')
 
 const authRouter = require('./components/auth/authRouter');
 const redisTest = require('./bin/testRedis/redis');
@@ -131,7 +133,7 @@ app.use(session({
   cookie: {
     //secure: false, // if true only transmit cookie over https
     //httpOnly: false, // if true prevent client side JS from reading the cookie 
-    maxAge: 1000 * 60 * 34 // session max age in miliseconds, 5 minutes
+    maxAge: 1000 * 60 * 60 // session max age in miliseconds, 5 minutes
   }
 }));
 
@@ -164,7 +166,9 @@ app.use('/branch', branchRouter)
 app.use('/orderTicket', orderTicketRouter)
 app.use('/ticket', ticketRouter)
 app.use('/orderTicket', orderTicketRouter)
+app.use('/history', historyRouter)
 
+app.use('/orderHistory', orderHistoryRouter)
 //khoa
 app.use('/redis', redisTest);
 app.use('/auth', authRouter);

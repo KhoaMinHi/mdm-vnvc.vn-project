@@ -4,7 +4,23 @@
     </div><br/>
     <div>
     <form method="post" action="/ticket/add" enctype="multipart/form-data">
-        <h4>THÔNG TIN NGƯỜI TIÊM</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h4 for="genderInject">Lựa chọn hình thức đăng ký (*)</h4>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="0" name="radio-option" value="0" onclick="handleClickOption(this);" checked>
+                        <label class="custom-control-label" for="me">Bản thân</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-3">
+                        <input type="radio" class="custom-control-input" id="1" name="radio-option" value="1" onclick="handleClickOption(this);">
+                        <label class="custom-control-label" for="guest">Đăng ký hộ</label>
+                    </div>
+                </div>
+            </div>
+        </div><br />
+        <div id="info-customer" style="display: none;">
+             <h4>THÔNG TIN NGƯỜI TIÊM</h4>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="nameInject">Họ tên người tiêm (*)</label>
@@ -30,8 +46,22 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="inputCustomer">Mã khách hàng (Nếu có)</label>
-                    <input type="input" class="form-control" id="inputCustomer" name="inputCustomer">
+                    <div class="form-group">
+                        <label for="rel">Mối quan hệ với bạn (*)</label>
+                        <select class="form-control" id="rel" name="rel">
+                            <option value="1">Con</option>
+                            <option value="2">Cha</option>
+                            <option value="3">Mẹ</option>
+                            <option value="4">Chồng</option>
+                            <option value="5">Anh</option>
+                            <option value="6">Chị</option>
+                            <option value="7">Em</option>
+                            <option value="8">Ông</option>
+                            <option value="9">Bà</option>
+                            <option value="10">Họ hàng</option>
+                            <option value="11">Khác</option>
+                        </select>
+                    </div>
                 </div>
             </div><br />
             <div class="row">
@@ -61,7 +91,9 @@
                     <input type="input" class="form-control" id="street" name="street">
                 </div>
             </div><br />
-            <h4>THÔNG TIN LIÊN HỆ</h4>
+        </div>
+        <div id="rel-person">
+            <h4>THÔNG TIN NGƯỜI THÂN</h4>
             <div class="row">
                 <div class="col-md-12">
                     <label for="nameFamily">Họ tên người liên hệ (*)</label>
@@ -73,7 +105,6 @@
                     <div class="form-group">
                         <label for="relationship">Mối quan hệ với người tiêm (*)</label>
                         <select class="form-control" id="relationship" name="relationship">
-                            <option value="0">Bản thân</option>
                             <option value="1">Con</option>
                             <option value="2">Cha</option>
                             <option value="3">Mẹ</option>
@@ -93,6 +124,7 @@
                     <input type="input" class="form-control" id="inputPhoneFamily" name="inputPhoneFamily">
                 </div>
             </div><br />
+        </div>
             <h4>THÔNG TIN DỊCH VỤ</h4>
             <div class="row">
                 <div class="col-md-12">
@@ -215,4 +247,13 @@
         }
     }
 
+    function handleClickOption(event) {
+        if(event.value === "0") {
+            document.getElementById('info-customer').style.display = "none"
+            document.getElementById('rel-person').style.display = "block"
+        }else{
+             document.getElementById('info-customer').style.display = "block"
+             document.getElementById('rel-person').style.display = "none"
+        }
+    }
 </script>
