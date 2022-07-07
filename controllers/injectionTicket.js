@@ -108,9 +108,7 @@ function TicketController() {
                 /*Add collection injection*/
                 await injectData.save()
 
-                return res.status(200).json({
-                    status: "Success"
-                })
+                res.redirect('http://localhost:3000/history')
               } catch (error) {
                 return res.status(400).json(error);
               }
