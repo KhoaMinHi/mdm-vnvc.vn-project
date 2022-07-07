@@ -11,6 +11,9 @@ const passport = require('./components/auth/passport');
 const mongoose = require('mongoose');
 const Handlebars = require('hbs');
 
+//evaluating demo mongo vs redis
+const MongoStore = require('connect-mongo')(session);
+
 
 //define router
 var indexRouter = require('./routes/index');
@@ -136,6 +139,22 @@ app.use(session({
     maxAge: 1000 * 60 * 60 // session max age in miliseconds, 5 minutes
   }
 }));
+
+//
+//EVALUATING DEMO REDIS VS MONGO
+// app.use(session({
+//   secret: 'SECRET KEY',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new MongoStore({
+//     url: 'mongodb://localhost:27017/test-app', //YOUR MONGODB URL
+//     ttl: 14 * 24 * 60 * 60,
+//     autoRemove: 'native'
+//   })
+// }))
+
+//
+
 
 app.use(function (req, res, next) {
   if (!req.session) {
