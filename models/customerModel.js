@@ -8,7 +8,7 @@ const customerSchema = new schema(
         password: { type: String, required: true, default: '12345678' },
         active: { type: Boolean, default: false },
         code: { type: Number, default: null },
-        phone: { type: String, required: true, unique: true },
+        phone: { type: String, required: true },
         name: { type: String, required: true },
         birth: { type: Date, required: true },
         sex: { type: String, required: true },

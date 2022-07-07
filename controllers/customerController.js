@@ -102,7 +102,16 @@ class customerController {
             }
             //initialize customer document
             let customerRegisterData = new customer(data);
-
+            //check existed email
+            const checkExitstedEmail = await customer.findOne({email: data.email}).lean();
+            if(checkExitstedEmail) {
+                if(!checkExitstedEmail.active)
+                    return res.render('customers/registerCustomer', {
+                        notice: 'Quý khách đã có tài khoản nhưng chưa kích hoạt. Vui lòng kích hoạt bằng cách nhấn liên kết gửi lại mã!'
+                    });
+                return res.render('customers/registerCustomer', {notice: 'Quý khách đã có tài khoản. Vui lòng đăng nhập!'})
+            }
+            
             const hostRegister = req.headers.host; //to send active link to customer email
             const result = await registerCustomerService.registerCustomerService(hostRegister, customerRegisterData);
             if (result.success = 0) {
@@ -157,7 +166,7 @@ class customerController {
         try {
             const email = req.body.email;
             if (!email) {
-                return res.status(401).json({ message: "Bạn chưa nhập mail!" });
+                return res.render('customers/sendMailCodeCustomer',{ notice: "Bạn chưa nhập mail!" });
             }
             //random code
             const code = Math.floor(100000 + Math.random() * 900000); //generate 6 digit password
@@ -175,8 +184,8 @@ class customerController {
                     notice:`Gửi Mã Thành Công. Quý khách ${result.name} vui lòng kiểm tra hộp thư email ` + String(email)
                 });
             }
-            return res.status(500).json({
-                message: "Gửi mã thất bại! Quý khách vui lòng nhập đúng email hoặc báo trung tâm để được hỗ trợ."
+            return res.render('customers/sendMailCodeCustomer',{
+                notice: "Gửi mã thất bại! Quý khách vui lòng nhập đúng email hoặc báo trung tâm để được hỗ trợ."
             });
         }
         catch (error) {

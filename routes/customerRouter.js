@@ -4,6 +4,7 @@ const customer = require('../controllers/customerController.js');
 const passport = require('./../components/auth/passport');
 
 router.get('/all', customer.getAll);
+router.get('/info', customer.getInfo);
 //router.get('/email/:email', customer.getByEmail);
 router.get('/id/:id', customer.getById);
 router.get('/register', customer.registerHtml);

@@ -22,6 +22,9 @@ passport.use(new LocalStrategy({
       if(!(user.password === password)){
         return done(null, false, { message: 'Không đúng email hoặc Password' });
       }
+      if(user.active == false){
+        return done(null, false, { message: 'Tài khoản chưa kích hoạt! Quý khách vui lòng kích hoạt.' });
+      }
       return done(null, user, { message: 'successful authentication' })} //return error is null and user infomation, passport will assign user into request
     catch (err) {
       return done(err) //only return error

@@ -1,0 +1,65 @@
+{{!--
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+
+<div class="container">
+    <div>
+        <h2 class="text-success text-center">Danh Sách Người Thân</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Mã</th>
+                    <th scope="col">Tên vác xin</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Số lượng tồn kho</th>
+                    <th scope="col">Nước</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Chi tiết</th>
+                    <th scope="col">Xóa</th>
+                </tr>
+            </thead>
+            <tbody >
+                {{#each vaccines}}
+                <tr >
+                    <td>{{this._id}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.price}}</td>
+                    <td class="px-4">{{this.inventory_number}}</td>
+                    <td>{{this.origin}}</td>
+                    <td>{{this.desc}}</td>
+                    <td><a href="/vaccine/{{this._id}}">Xem</a></td>
+                    <td >
+                        <button value="{{this._id}}" class="delete btn btn-success" type="button">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="resultModifyPlayer"></div>
+
+<script>
+    $(document).ready(function () {
+        $('button.delete').click(function () {
+            let _id = $(this).val();
+            let url = `/vaccine/${_id}`;
+
+            $.ajax({
+                url,
+                type: 'DELETE',
+                data: _id,
+                async: true,
+                success: function (data) {
+                    //$('#resultModifyPlayer').html(data);
+                    $(`#row${_id}`).remove();
+                },
+                error: function (err) {
+                    alert('Không xóa được!')
+                }
+            });
+        });
+    });
+</script>

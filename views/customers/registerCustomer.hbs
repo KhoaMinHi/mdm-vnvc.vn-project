@@ -1,6 +1,29 @@
 <div class="container">
     <div class="d-flex justify-content-center">
         <div>
+            {{#notice}}
+            {{!-- <div class="alert alert-warning" role="alert">
+                {{this}}
+            </div> --}}
+            <!-- Modal -->
+            <div class="modal fade" id="warningRelPersonModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center">
+                        <div class="modal-header d-flex justify-content-center text-warning">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                        </div>
+                        <div class="modal-body">
+                            {{this}}
+                        </div>
+                        <div class="modal-footer">
+                            <button id="hideNoticeRelPerson" type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/notice}}
             <h4 class="text-center">Đăng ký tài khoản</h4>
             <form class="was-validated mb-3" method="post">
                 <div class="row">
@@ -124,11 +147,20 @@
     var locationVN = null;
     var cityCustomer = null;
     window.onload = function () {
-        (async () => {
-            locationVN = await fetch('https://provinces.open-api.vn/api/?depth=3')
-                .then(res => { return res.json() });
-        })();
+      (async () => {
+        locationVN = await fetch('https://provinces.open-api.vn/api/?depth=3')
+          .then(res => { return res.json() });
+        pushCityInputBox();
+      })();
     };
+
+    function pushCityInputBox() {
+      let provincesNameHTML = `<option value="">Chọn tỉnh thành</option>`;
+      for (province of locationVN) {
+        provincesNameHTML += `<option value="${province.name}">${province.name}</option>`;
+      }
+      document.getElementById("citySelect").innerHTML = provincesNameHTML;
+    }
 
     function choosedCity() {
         document.getElementById("district").innerHTML = "";
@@ -167,4 +199,13 @@
 
     password.onchange = validatePassword;
     confirm_password.onkeyup = validatePassword;
+
+    $(window).on('load', function () {
+      $('#warningRelPersonModal').modal('show');
+    });
+    $(document).ready(() => {
+      $('#hideNoticeRelPerson').click(() => {
+        $('#warningRelPersonModal').modal('hide');
+      })
+    })
 </script>
