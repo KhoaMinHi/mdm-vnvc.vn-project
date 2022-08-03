@@ -57,7 +57,7 @@ function VaccineController() {
                 if(!req.params.id) return es.send({success: false, notice: `Đầu vào không có mã. ${req.params.id}`});
                 let result = await vaccineModel.findOneAndDelete({_id:req.params.id}).lean();
                 if(result) return res.send({success: true, notice: `Xóa thành công vác xin có mã: ${req.params.id}`});
-                return es.send({success: false, notice: `Xóa thất bại vác xin có mã: ${req.params.id}`});
+                return res.send({success: false, notice: `Xóa thất bại vác xin có mã: ${req.params.id}`});
             } catch (error) {
                 return res.status(400).json(error);
             }
